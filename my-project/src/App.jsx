@@ -6,9 +6,15 @@ import OpenRoute from "./components/core/Auth/openRoute";
 import Signup from "./pages/Signup";
 import Navbar from "./components/common/Navbar";
 import ForgotPassword from "./pages/ForgotPassword";
-import  UpdatePassword from "./pages/updatePassword"
+import UpdatePassword from "./pages/updatePassword";
 import VerifyEmail from "./pages/VerifyEmail";
 import About from "./pages/About";
+import MyProfile from "./components/core/Dashboard/MyProfile";
+import Dashboard from "./pages/Dashboard";
+
+import PrivateRoute from "./components/core/Auth/privateRoute";
+
+import Error from "./pages/Error";
 
 function App() {
   return (
@@ -16,7 +22,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home></Home>} />
-         <Route
+        <Route
           path="/signup"
           element={
             <OpenRoute>
@@ -56,18 +62,21 @@ function App() {
             </OpenRoute>
           }
         />
+        <Route path="/about" element={<About />} />
         <Route
-          path="/about"
+          path="/dashboard"
           element={
-
-              <About/>
-
+            <PrivateRoute>
+              <Dashboard />
+            </PrivateRoute>
           }
-        />
-      </Routes>
-      
+        >
+          <Route path="my-profile" element={<MyProfile />} />
+          {/* add more child routes here */}
+        </Route>
 
-      
+        <Route path="*" element={<Error />} />
+      </Routes>
     </div>
   );
 }
