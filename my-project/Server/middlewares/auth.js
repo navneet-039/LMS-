@@ -3,37 +3,39 @@ require("dotenv").config();
 const User = require("../models/User");
 
 // Auth middleware
+// Auth Middleware
 exports.auth = async (req, res, next) => {
   try {
     const token =
       req.cookies.token ||
       req.body.token ||
-      req.header("Authorization")?.replace("Bearer ", ""); // ✅ fixed: "Authorisation" typo + space after "Bearer"
+      req.header("Authorization")?.replace("Bearer ", "");
+    //    console.log("Token received in auth middleware:", token);
 
     if (!token) {
       return res.status(401).json({
         success: false,
-        message: "Token is missing.",
+        message: "Token not found",
       });
     }
 
     try {
       const decode = jwt.verify(token, process.env.JWT_SECRET);
-      console.log(decode);
-      req.user = decode;
-    } catch (error) {
+      console.log("Decoded JWT:", decode);
+      req.user = decode; 
+    } catch (err) {
       return res.status(401).json({
         success: false,
-        message: "Invalid token.",
+        message: "Token is invalid",
       });
     }
 
     next();
   } catch (error) {
-    console.log(error);
+    console.log("Auth middleware error:", error);
     return res.status(401).json({
       success: false,
-      message: "Something went wrong while validating the token.",
+      message: "Something went wrong while validating the token",
     });
   }
 };
