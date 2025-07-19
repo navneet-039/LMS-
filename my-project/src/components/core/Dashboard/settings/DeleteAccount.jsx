@@ -3,17 +3,18 @@ import { FiTrash2 } from "react-icons/fi"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { deleteProfile } from "../../../../Services/operations/settingApi"
-  async function handleDeleteAccount() {
+ 
+export default  function DeleteAccount(){
+   const { token } = useSelector((state) => state.auth)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+   async function handleDeleteAccount() {
     try {
       dispatch(deleteProfile(token, navigate))
     } catch (error) {
       console.log("ERROR MESSAGE - ", error.message)
     }
   }
-export default  function DeleteAccount(){
-   const { token } = useSelector((state) => state.auth)
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
 
   return(
      <>
