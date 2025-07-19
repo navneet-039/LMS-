@@ -11,6 +11,7 @@ import VerifyEmail from "./pages/VerifyEmail";
 import About from "./pages/About";
 import MyProfile from "./components/core/Dashboard/MyProfile";
 import Dashboard from "./pages/Dashboard";
+import Contact from "./pages/Contactus"
 
 import PrivateRoute from "./components/core/Auth/privateRoute";
 
@@ -64,6 +65,7 @@ function App() {
           }
         />
         <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
         <Route
           path="/dashboard"
           element={

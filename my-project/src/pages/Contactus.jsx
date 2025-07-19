@@ -1,5 +1,7 @@
 import React from "react"
 import Footer from "../components/common/Footer"
+import ContactUsForm from "../components/core/ContactPage/ContactUsForm"
+import ContactDetails from "../components/core/ContactPage/ContactDetails"
 
 const Contact=()=>{
   return (
@@ -9,11 +11,16 @@ const Contact=()=>{
       <ContactDetails/>
     </div>
     <div className="lg:w-[60%]">
-      <ContactForm/>
+      <ContactUsForm/>
     </div>
-    <Footer/>
+ 
 
     </div>
+    <div className="mt-[80px]">
+      <Footer/>
+    </div>
+    
     </div>
   )
 }
+export default Contact;
