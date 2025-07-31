@@ -133,7 +133,7 @@ exports.sendOtp = async (req, res) => {
     });
     console.log("otp generated: ", otp);
     // check unique otp or not
-    const result = await OTP.findOne({ otp: otp });
+    let result = await OTP.findOne({ otp: otp });
     while (result) {
       otp = otpGenerator(6, {
         upperCaseAlphabets: false,
@@ -163,6 +163,7 @@ exports.sendOtp = async (req, res) => {
 //Login
 exports.logIn = async (req, res) => {
   try {
+    console.log(req.body);
     const { email, password } = req.body;
     if (!email || !password) {
       return res.status(400).json({
