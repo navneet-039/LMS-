@@ -2,15 +2,15 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const User = require("../models/User");
 
-// Auth middleware
-// Auth Middleware
+
 exports.auth = async (req, res, next) => {
   try {
-    const token =
-      req.cookies.token ||
-      req.body.token ||
-      req.header("Authorization")?.replace("Bearer ", "");
-    //    console.log("Token received in auth middleware:", token);
+      console.log("Authorization Header:", req.headers.authorization);
+   const token =
+  req.cookies.token ||
+  req.body.token ||
+  req.headers["authorization"]?.replace("Bearer ", "") ||
+  req.header("Authorization")?.replace("Bearer ", "");
 
     if (!token) {
       return res.status(401).json({

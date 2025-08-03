@@ -88,6 +88,8 @@ export const addCourseDetails = async (data, token) => {
   let result = null
   const toastId = toast.loading("Loading...")
   try {
+    console.log("dsbjdsb");
+    console.log(token);
     const response = await apiConnector("POST", CREATE_COURSE_API, data, {
       "Content-Type": "multipart/form-data",
       Authorization: `Bearer ${token}`,
@@ -142,7 +144,7 @@ export const createSection = async (data, token) => {
       throw new Error("Could Not Create Section")
     }
     toast.success("Course Section Created")
-    result = response?.data?.updatedCourse
+    result = response?.data?.updatedCourseDetails
   } catch (error) {
     console.log("CREATE SECTION API ERROR............", error)
     toast.error(error.message)

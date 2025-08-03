@@ -8,6 +8,8 @@ const { uploadImageToCloudinary } = require("../utils/imageUploader");
 exports.createCourse = async (req, res) => {
   try {
     // Get user ID from request object
+  
+
     const userId = req.user.id
 
     // Get all required fields from request body
@@ -19,6 +21,7 @@ exports.createCourse = async (req, res) => {
       tag: _tag,
       category,
       status,
+        instructions: _instructions, 
     } = req.body
     // Get thumbnail image from request files
     const thumbnail = req.files.thumbnailImage
