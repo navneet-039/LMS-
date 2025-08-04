@@ -2,25 +2,20 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 // Icons
-import { AiFillCaretDown } from "react-icons/ai";
-import { FaPlus } from "react-icons/fa";
+import { AiOutlinePlus } from "react-icons/ai";
 import { MdEdit } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { RxDropdownMenu } from "react-icons/rx";
-import { AiOutlinePlus } from "react-icons/ai";
-
 import { BiSolidDownArrow } from "react-icons/bi";
-import SubSectionModal from "./subSectionModal";
 
-// Services & Redux
+// Components & Services
+import SubSectionModal from "./subSectionModal";
+import ConfirmationModal from "../../../../common/ConfirmationModal";
 import {
   deleteSection,
   deleteSubSection,
 } from "../../../../../services/operations/courseDetailsAPI";
 import { setCourse } from "../../../../../slices/courseSlice";
-
-// Components
-import ConfirmationModal from "../../../../common/ConfirmationModal";
 
 export default function NestedView({ handleChangeEditSectionName }) {
   const { course } = useSelector((state) => state.course);
@@ -37,26 +32,24 @@ export default function NestedView({ handleChangeEditSectionName }) {
       sectionId,
       courseId: course._id,
       token,
-    })
+    });
     if (result) {
-      dispatch(setCourse(result))
+      dispatch(setCourse(result));
     }
-    setConfirmationModal(null)
-  }
+    setConfirmationModal(null);
+  };
 
   const handleDeleteSubSection = async (subSectionId, sectionId) => {
-    const result = await deleteSubSection({ subSectionId, sectionId, token })
+    const result = await deleteSubSection({ subSectionId, sectionId, token });
     if (result) {
-      // update the structure of course
       const updatedCourseContent = course.courseContent.map((section) =>
         section._id === sectionId ? result : section
-      )
-      const updatedCourse = { ...course, courseContent: updatedCourseContent }
-      dispatch(setCourse(updatedCourse))
+      );
+      const updatedCourse = { ...course, courseContent: updatedCourseContent };
+      dispatch(setCourse(updatedCourse));
     }
-    setConfirmationModal(null)
-  }
-
+    setConfirmationModal(null);
+  };
 
   return (
     <>
@@ -75,17 +68,19 @@ export default function NestedView({ handleChangeEditSectionName }) {
               </div>
               <div className="flex items-center gap-x-3">
                 <button
-                  onClick={() =>
+                  onClick={(e) => {
+                    e.stopPropagation();
                     handleChangeEditSectionName(
                       section._id,
                       section.sectionName
-                    )
-                  }
+                    );
+                  }}
                 >
                   <MdEdit className="text-xl text-richblack-300" />
                 </button>
                 <button
-                  onClick={() =>
+                  onClick={(e) => {
+                    e.stopPropagation();
                     setConfirmationModal({
                       text1: "Delete this Section?",
                       text2: "All the lectures in this section will be deleted",
@@ -93,8 +88,8 @@ export default function NestedView({ handleChangeEditSectionName }) {
                       btn2Text: "Cancel",
                       btn1Handler: () => handleDeleteSection(section._id),
                       btn2Handler: () => setConfirmationModal(null),
-                    })
-                  }
+                    });
+                  }}
                 >
                   <RiDeleteBin6Line className="text-xl text-richblack-300" />
                 </button>
@@ -109,7 +104,10 @@ export default function NestedView({ handleChangeEditSectionName }) {
                   onClick={() => setViewSubSection(data)}
                   className="flex items-center justify-between gap-x-3 border-b-2"
                 >
-                  <div className="flex items-center gap-x-3">
+                  <div
+                    onClick={(e) => e.stopPropagation()}
+                    className="flex items-center gap-x-3"
+                  >
                     <RxDropdownMenu className="text-2xl text-richblack-50" />
                     <p className="font-semibold text-richblack-50">
                       {data.title}
@@ -117,24 +115,26 @@ export default function NestedView({ handleChangeEditSectionName }) {
                   </div>
                   <div className="flex items-center gap-x-3">
                     <button
-                      onClick={() =>
-                        setEditSubSection({ ...data, sectionId: section._id })
-                      }
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setEditSubSection({ ...data, sectionId: section._id });
+                      }}
                     >
                       <MdEdit className="text-xl text-richblack-300" />
                     </button>
                     <button
-                      onClick={() =>
+                      onClick={(e) => {
+                        e.stopPropagation();
                         setConfirmationModal({
                           text1: "Delete this Sub Section?",
-                          text2: "selected lecture  will be deleted",
+                          text2: "Selected lecture will be deleted",
                           btn1Text: "Delete",
                           btn2Text: "Cancel",
                           btn1Handler: () =>
                             handleDeleteSubSection(data._id, section._id),
                           btn2Handler: () => setConfirmationModal(null),
-                        })
-                      }
+                        });
+                      }}
                     >
                       <RiDeleteBin6Line className="text-xl text-richblack-300" />
                     </button>
@@ -143,7 +143,10 @@ export default function NestedView({ handleChangeEditSectionName }) {
               ))}
               <button
                 className="mt-4 flex items-center gap-x-2 text-yellow-50"
-                onClick={() => setAddSubsection(section._id)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setAddSubsection(section._id);
+                }}
               >
                 <AiOutlinePlus /> <p>Add Lecture</p>
               </button>

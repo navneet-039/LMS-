@@ -21,6 +21,7 @@ import Error from "./pages/Error";
 import EnrolledCourses from "./components/core/Dashboard/EnrolledCourses";
 import { ACCOUNT_TYPE } from "./utils/constants";
 import AddCourse from "./components/core/Dashboard/AddCourse";
+import MyCourses from "./components/core/Dashboard/MyCourses";
 
 function App() {
     const { user } = useSelector((state) => state.profile);
@@ -92,6 +93,7 @@ function App() {
   {user?.accountType === ACCOUNT_TYPE.INSTRUCTOR && (
     <>
       <Route path="add-course" element={<AddCourse />} />
+      <Route path="my-courses" element={<MyCourses/>}/>
       <Route path="enrolled-courses" element={<EnrolledCourses />} />
     </>
   )}
