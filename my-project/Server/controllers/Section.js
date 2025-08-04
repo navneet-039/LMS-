@@ -115,7 +115,7 @@ exports.deleteSection = async (req, res) => {
     }
 
     await SubSection.deleteMany({ _id: { $in: section.subSection } });
-    await Section.findByIdAndDelete(sectionId); // ✅ fixed incorrect `{ sectionId }`
+    await Section.findByIdAndDelete(sectionId); 
 
     const course = await Course.findById(courseId)
       .populate({
