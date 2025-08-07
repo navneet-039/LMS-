@@ -1,34 +1,39 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Table, Tbody, Thead,Tr,Td,Th } from "react-super-responsive-table";
+import { Table, Tbody, Thead, Tr, Td, Th } from "react-super-responsive-table";
 import { formattedDate } from "../../../../utils/dateFormatter";
 import { COURSE_STATUS } from "../../../../utils/constants";
 import ConfirmationModal from "../../../common/ConfirmationModal";
-import { deleteCourse, fetchInstructorCourses } from "../../../../services/operations/courseDetailsAPI";
+import {
+  deleteCourse,
+  fetchInstructorCourses,
+} from "../../../../services/operations/courseDetailsAPI";
 import { setCourse } from "../../../../slices/courseSlice";
+
+import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
 
 const CourseseTable = ({ courses, setCourses }) => {
   const { token } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [confirmationModal, setConfirmationModal] = useState(null);
-  const handleCourseDelete=async(courseId)=>{
+  const handleCourseDelete = async (courseId) => {
     setLoading(true);
-    await deleteCourse({courseId:courseId},token);
-    const result=await fetchInstructorCourses(token);
-    if(result){
-     setCourses(result);
+    await deleteCourse({ courseId: courseId }, token);
+    const result = await fetchInstructorCourses(token);
+    if (result) {
+      setCourses(result);
     }
-setConfirmationModal(null);
-setLoading(false);
-  }
+    setConfirmationModal(null);
+    setLoading(false);
+  };
 
   return (
     <div className="text-white">
       <Table>
         <Thead>
-          <Tr>
+          <Tr className="flex gap-x-10 border-richblack-800 p-8">
             <Th>Courses</Th>
             <Th>Duration</Th>
             <Th>Price</Th>
@@ -62,31 +67,45 @@ setLoading(false);
                     )}
                   </div>
                 </Td>
+                <Td>2hr 30 min</Td>
+                <Td>${course.price}</Td>
                 <Td>
-                  2hr 30 min
-                </Td>
-                <Td>
-                  ${course.price}
-                </Td>
-                <Td>
-                  <button disabled={loading} >EDIT</button>
-                  <button disabled={loading} onClick={()=>setConfirmationModal({
-                    text1:"Do you want to delete this Course",
-                    text2:" All the data related to this Course will be deleted",
-                    btn1Text:"Delete",
-                    btn2Text: "Cancel",
-                    btn1Handler: !loading ?()=>handleCourseDelete(course._id):()=>{},
-                    btn2Handler:!loading ?()=>setConfirmationModal(null):()=>{}
-                  }
-                    
-                  )}>DELETE</button>
+                  <button
+                    className="mr-[19px]"
+                    disabled={loading}
+                    onClick={() =>
+                      navigate(`/dashboard/edit-course/${course._id}`)
+                    }
+                  >
+                    EDIT
+                  </button>
+                  <button
+                    disabled={loading}
+                    onClick={() =>
+                      setConfirmationModal({
+                        text1: "Do you want to delete this Course",
+                        text2:
+                          " All the data related to this Course will be deleted",
+                        btn1Text: "Delete",
+                        btn2Text: "Cancel",
+                        btn1Handler: !loading
+                          ? () => handleCourseDelete(course._id)
+                          : () => {},
+                        btn2Handler: !loading
+                          ? () => setConfirmationModal(null)
+                          : () => {},
+                      })
+                    }
+                  >
+                    DELETE
+                  </button>
                 </Td>
               </Tr>
             ))
           )}
         </Tbody>
       </Table>
-      {confirmationModal && <ConfirmationModal modalData={confirmationModal}/>}
+      {confirmationModal && <ConfirmationModal modalData={confirmationModal} />}
     </div>
   );
 };

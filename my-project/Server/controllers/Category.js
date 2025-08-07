@@ -60,7 +60,7 @@ exports.categoryPageDetails = async (req, res) => {
       .populate({
         path: "courses",
         match: { status: "Published" },
-        populate: "ratingAndReviews",
+        populate: "ratingAndReview",
       })
       .exec();
 
@@ -73,12 +73,18 @@ exports.categoryPageDetails = async (req, res) => {
     }
 
     // If category has no published courses
-    if (selectedCategory.courses.length === 0) { 
-      return res.status(404).json({
-        success: false,
-        message: "No courses found for the selected category.",
-      });
+   if (selectedCategory.courses.length === 0) { 
+  return res.status(200).json({
+    success: true,
+    message: "No courses found for the selected category.",
+    data: {
+      selectedCategory,
+      differentCategory: null,
+      mostSellingCourses: [],
     }
+  });
+}
+
 
     //  Pick a different random category
     const categoriesExceptSelected = await Category.find({

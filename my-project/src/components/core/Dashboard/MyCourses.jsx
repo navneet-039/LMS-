@@ -5,6 +5,7 @@ import { fetchInstructorCourses } from "../../../services/operations/courseDetai
 import IconBtn from "../../common/IconBtn";
 import CourseseTable from "./InstructorCourses/CourseseTable";
 
+
 const MyCourses = () => {
   const { token } = useSelector((state) => state.auth);
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ const MyCourses = () => {
   }, []);
  return (
   <div className="text-white">
-    <div>
+    <div className="flex justify-between">
       <h1>My Courses</h1>
       <IconBtn text="Add Course" onclick={() => navigate("/dashboard/add-course")} />
     </div>
