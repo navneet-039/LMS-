@@ -1,6 +1,5 @@
-
-import { createSlice } from "@reduxjs/toolkit"
-import { toast } from "react-hot-toast"
+import { createSlice } from "@reduxjs/toolkit";
+import { toast } from "react-hot-toast";
 
 const initialState = {
   cart: localStorage.getItem("cart")
@@ -12,62 +11,79 @@ const initialState = {
   totalItems: localStorage.getItem("totalItems")
     ? JSON.parse(localStorage.getItem("totalItems"))
     : 0,
-}
+};
 
 const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
     addToCart: (state, action) => {
-      const course = action.payload
-      const index = state.cart.findIndex((item) => item._id === course._id)
+      const course = action.payload.data || action.payload;
+
+      console.log("Adding to cart:", course);
+
+      const index = state.cart.findIndex((item) => item._id === course._id);
 
       if (index >= 0) {
-        // If the course is already in the cart, do not modify the quantity
-        toast.error("Course already in cart")
-        return
+        toast.error("Course already in cart");
+        return;
       }
-      // If the course is not in the cart, add it to the cart
-      state.cart.push(course)
-      // Update the total quantity and price
-      state.totalItems++
-      state.total += course.price
-      // Update to localstorage
-      localStorage.setItem("cart", JSON.stringify(state.cart))
-      localStorage.setItem("total", JSON.stringify(state.total))
-      localStorage.setItem("totalItems", JSON.stringify(state.totalItems))
-      // show toast
-      toast.success("Course added to cart")
+
+      state.cart.push(course);
+      state.totalItems++;
+      // Ensure price is a number
+      state.total += Number(course.price);
+
+      localStorage.setItem("cart", JSON.stringify(state.cart));
+      localStorage.setItem("total", JSON.stringify(state.total));
+      localStorage.setItem("totalItems", JSON.stringify(state.totalItems));
+
+      toast.success("Course added to cart");
+      console.log("Cart after add:", state.cart);
     },
     removeFromCart: (state, action) => {
-      const courseId = action.payload
-      const index = state.cart.findIndex((item) => item._id === courseId)
+      const courseId = action.payload;
+      console.log("removeFromCart called with id:", courseId);
+
+      if (!courseId) {
+        console.warn("removeFromCart called without courseId");
+        return;
+      }
+
+      const index = state.cart.findIndex((item) => item._id === courseId);
 
       if (index >= 0) {
-        // If the course is found in the cart, remove it
-        state.totalItems--
-        state.total -= state.cart[index].price
-        state.cart.splice(index, 1)
-        // Update to localstorage
-        localStorage.setItem("cart", JSON.stringify(state.cart))
-        localStorage.setItem("total", JSON.stringify(state.total))
-        localStorage.setItem("totalItems", JSON.stringify(state.totalItems))
-        // show toast
-        toast.success("Course removed from cart")
+        state.totalItems--;
+        // Defensive price parsing
+        const coursePrice = Number(state.cart[index].price) || 0;
+        state.total -= coursePrice;
+
+        state.cart.splice(index, 1);
+
+        localStorage.setItem("cart", JSON.stringify(state.cart));
+        localStorage.setItem("total", JSON.stringify(state.total));
+        localStorage.setItem("totalItems", JSON.stringify(state.totalItems));
+
+        toast.success("Course removed from cart");
+        console.log("Cart after remove:", state.cart);
+      } else {
+        console.warn("Course ID not found in cart:", courseId);
       }
     },
     resetCart: (state) => {
-      state.cart = []
-      state.total = 0
-      state.totalItems = 0
-      // Update to localstorage
-      localStorage.removeItem("cart")
-      localStorage.removeItem("total")
-      localStorage.removeItem("totalItems")
+      state.cart = [];
+      state.total = 0;
+      state.totalItems = 0;
+
+      localStorage.removeItem("cart");
+      localStorage.removeItem("total");
+      localStorage.removeItem("totalItems");
+
+      console.log("Cart reset");
     },
   },
-})
+});
 
-export const { addToCart, removeFromCart, resetCart } = cartSlice.actions
+export const { addToCart, removeFromCart, resetCart } = cartSlice.actions;
 
-export default cartSlice.reducer
+export default cartSlice.reducer;
