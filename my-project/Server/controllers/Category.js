@@ -26,7 +26,7 @@ exports.createCategory = async (req, res) => {
     });
   } catch (error) {
     return res.status(500).json({
-      success: false, // fixed: previously incorrectly set to true
+      success: false,
       message: error.message,
     });
   }
@@ -73,18 +73,17 @@ exports.categoryPageDetails = async (req, res) => {
     }
 
     // If category has no published courses
-   if (selectedCategory.courses.length === 0) { 
-  return res.status(200).json({
-    success: true,
-    message: "No courses found for the selected category.",
-    data: {
-      selectedCategory,
-      differentCategory: null,
-      mostSellingCourses: [],
+    if (selectedCategory.courses.length === 0) {
+      return res.status(200).json({
+        success: true,
+        message: "No courses found for the selected category.",
+        data: {
+          selectedCategory,
+          differentCategory: null,
+          mostSellingCourses: [],
+        },
+      });
     }
-  });
-}
-
 
     //  Pick a different random category
     const categoriesExceptSelected = await Category.find({
@@ -115,11 +114,11 @@ exports.categoryPageDetails = async (req, res) => {
       })
       .exec();
 
-    const allCourses = allCategories.flatMap((category) => category.courses); 
+    const allCourses = allCategories.flatMap((category) => category.courses);
 
     const mostSellingCourses = allCourses
       .filter((course) => course)
-      .sort((a, b) => b.sold - a.sold)
+      .sort((a, b) => b.studentsEnrolled.length - a.studentsEnrolled.length)
       .slice(0, 10);
 
     res.status(200).json({
@@ -130,7 +129,6 @@ exports.categoryPageDetails = async (req, res) => {
         mostSellingCourses,
       },
     });
-
   } catch (error) {
     console.error("Error in categoryPageDetails:", error);
     return res.status(500).json({

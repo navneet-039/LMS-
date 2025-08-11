@@ -11,7 +11,7 @@ export const apiConnector = async (method, url, bodyData = null, headers = {}, p
       method,
       url,
       data: bodyData,
-      headers,   // don't fallback to null, pass empty object instead
+      headers,  
       params,
     });
 

@@ -48,8 +48,6 @@ const UserSchema = new mongoose.Schema({
   ],
   image: {
     type: String,
-    //at registration image cannot be uploaded
-    // required: true,
   },
   token: {
     type: String,

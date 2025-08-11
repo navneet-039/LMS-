@@ -2,7 +2,7 @@ const Course = require("../models/Course");
 const Profile = require("../models/Profile");
 const User = require("../models/User");
 const { uploadImageToCloudinary } = require("../utils/imageUploader");
-const CourseProgress = require("../models/CourseProgress"); // ✅ Required for deleteAccount
+const CourseProgress = require("../models/CourseProgress");
 const  convertSecondsToDuration=require ("../utils/convertSecondsToDuration")
 
 // update profile
@@ -213,7 +213,7 @@ exports.getEnrolledCourses = async (req, res) => {
         SubsectionLength += subSections.length;
       }
 
-      // ✅ Now assign totalDuration here (AFTER looping all sections)
+  
       userDetails.courses[i].totalDuration = convertSecondsToDuration(totalDurationInSeconds);
 
       // Progress percentage

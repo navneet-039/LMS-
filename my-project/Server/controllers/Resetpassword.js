@@ -1,7 +1,7 @@
 const User = require("../models/User");
 const mailSender = require("../utils/mailSender");
 const bcrypt = require("bcrypt");
-const crypto = require("crypto"); // ✅ Required for crypto.randomUUID()
+const crypto = require("crypto");
 
 // reset password token
 exports.resetPasswordToken = async (req, res) => {
@@ -11,7 +11,7 @@ exports.resetPasswordToken = async (req, res) => {
     // check user for email
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({  // ✅ Added status code
+      return res.status(400).json({  
         success: false,
         message: "Your email is not registered with us.",
       });

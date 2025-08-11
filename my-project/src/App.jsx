@@ -28,14 +28,14 @@ import Catalog from "./pages/Catalog";
 import CourseDetails from "./pages/CourseDetails";
 
 function App() {
-    const { user } = useSelector((state) => state.profile);
+  const { user } = useSelector((state) => state.profile);
   return (
     <div className="w-screen min-h-screen bg-richblack-900  flex flex-col font-inter">
       <Navbar />
       <Routes>
         <Route path="/" element={<Home></Home>} />
-         <Route path="/catalog/:catalogName" element={<Catalog/>} />
-         <Route path="/courses/:courseId" element={<CourseDetails/>} />
+        <Route path="/catalog/:catalogName" element={<Catalog />} />
+        <Route path="/courses/:courseId" element={<CourseDetails />} />
 
         <Route
           path="/signup"
@@ -80,33 +80,31 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route
-  path="/dashboard"
-  element={
-    <PrivateRoute>
-      <Dashboard />
-    </PrivateRoute>
-  }
->
-  <Route path="my-profile" element={<MyProfile />} />
-  <Route path="settings" element={<Settings />} />
+          path="/dashboard"
+          element={
+            <PrivateRoute>
+              <Dashboard />
+            </PrivateRoute>
+          }
+        >
+          <Route path="my-profile" element={<MyProfile />} />
+          <Route path="settings" element={<Settings />} />
 
-  {user?.accountType === ACCOUNT_TYPE.STUDENT && (
-    <>
-      <Route path="cart" element={<Cart />} />
-      <Route path="enrolled-courses" element={<EnrolledCourses />} />
-    </>
-  )}
+          {user?.accountType === ACCOUNT_TYPE.STUDENT && (
+            <>
+              <Route path="cart" element={<Cart />} />
+              <Route path="enrolled-courses" element={<EnrolledCourses />} />
+            </>
+          )}
 
-  {user?.accountType === ACCOUNT_TYPE.INSTRUCTOR && (
-    <>
-      <Route path="add-course" element={<AddCourse />} />
-      <Route path="my-courses" element={<MyCourses/>}/>
-       <Route path="edit-course/:courseId" element={<EditCourse/>}/>
-      
-    </>
-  )}
-</Route>
-
+          {user?.accountType === ACCOUNT_TYPE.INSTRUCTOR && (
+            <>
+              <Route path="add-course" element={<AddCourse />} />
+              <Route path="my-courses" element={<MyCourses />} />
+              <Route path="edit-course/:courseId" element={<EditCourse />} />
+            </>
+          )}
+        </Route>
 
         <Route path="*" element={<Error />} />
       </Routes>

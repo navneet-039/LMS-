@@ -113,11 +113,11 @@ exports.getAllRating = async (req, res) => {
     const allReviews = await RatingAndReview.find({})
       .sort({ rating: "desc" })
       .populate({
-        path: "user", // ✅ corrected casing from "User"
+        path: "user", 
         select: "firstName lastName image email",
       })
       .populate({
-        path: "course", // ✅ corrected casing from "Course"
+        path: "course", 
         select: "courseName",
       })
       .exec();
