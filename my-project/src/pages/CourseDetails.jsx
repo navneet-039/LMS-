@@ -47,7 +47,7 @@ export default function CourseDetails() {
       return;
     }
 
-    // Call buyCourse function directly (not dispatching)
+  
     buyCourse({
       token,
       courses: [courseId],

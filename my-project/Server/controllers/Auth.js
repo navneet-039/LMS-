@@ -5,7 +5,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { overwriteMiddlewareResult } = require("mongoose");
 const mailSender = require("../utils/mailSender");
-const Profile = require("../models/Profile"); // Missing import
+const Profile = require("../models/Profile"); 
 
 //signup
 
@@ -41,10 +41,9 @@ exports.signUp = async (req, res) => {
       return res.status(400).json({
         success: false,
         message:
-          "Password and Confirm Password do not match. Please try again.",
+          "Password and  Confirm Password do not match. Please try again.",
       });
     }
-
     // Check if user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {

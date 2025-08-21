@@ -142,7 +142,6 @@ exports.getAllCourses = async (req, res) => {
 exports.getCourseDetails = async (req, res) => {
   try {
     const { courseId } = req.body;
-
     const courseDetails = await Course.findById(courseId)
       .populate({
         path: "instructor",

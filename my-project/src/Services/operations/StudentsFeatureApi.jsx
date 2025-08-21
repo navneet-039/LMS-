@@ -54,11 +54,11 @@ export async function buyCourse({
     }
 
     const options = {
-      key: import.meta.env.VITE_RAZORPAY_KEY, // ✅ use VITE_ prefix for env variables in Vite
+      key: import.meta.env.VITE_RAZORPAY_KEY, 
       currency: orderResponse.data.data.currency,
       amount: `${orderResponse.data.data.amount}`,
       order_id: orderResponse.data.data.id,
-      name: "Edemy",
+      name: "studynotion",
       description: "Thank You for purchasing the course",
       image: logoFullDark,
       prefill: {

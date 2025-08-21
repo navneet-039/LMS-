@@ -73,12 +73,9 @@ exports.verifyPayment = async (req, res) => {
   try {
     const razorpay_order_id = req.body?.razorpay_order_id;
     const razorpay_payment_id = req.body?.razorpay_payment_id;
-
     const razorpay_signature = req.body?.razorpay_signature;
-
     const courses = req.body?.courses;
     const userId = req.user.id;
-
     if (
       !razorpay_order_id ||
       !razorpay_payment_id ||
