@@ -8,6 +8,7 @@ const  convertSecondsToDuration=require ("../utils/convertSecondsToDuration")
 // update profile
 exports.updateProfile = async (req, res) => {
   try {
+    //if not provided keep empty
     const {
       firstName = "",
       lastName = "",

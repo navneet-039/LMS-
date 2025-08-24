@@ -57,7 +57,7 @@ exports.updateSubSection = async (req, res) => {
   try {
     const { sectionId, subSectionId, title, description } = req.body;
 
-    const subSectionDoc = await SubSection.findById(subSectionId); // ✅ renamed to avoid shadowing
+    const subSectionDoc = await SubSection.findById(subSectionId); 
     if (!subSectionDoc) {
       return res.status(404).json({
         success: false,

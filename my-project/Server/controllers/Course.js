@@ -84,9 +84,9 @@ exports.createCourse = async (req, res) => {
       { $push: { courses: newCourse._id } },
       { new: true }
     );
-
+//both works even if you push _id:category because monggose casts string to object id but safer because we found that ut exist 
     await Category.findByIdAndUpdate(
-      { _id: category },
+      { _id: categoryDetails._id },
       { $push: { courses: newCourse._id } },
       { new: true }
     );
@@ -109,6 +109,7 @@ exports.createCourse = async (req, res) => {
 // Get All Courses
 exports.getAllCourses = async (req, res) => {
   try {
+    //get these fields only  no need for .exec() while eriting query but learnig methods
     const allCourses = await Course.find(
       {},
       {
@@ -120,8 +121,9 @@ exports.getAllCourses = async (req, res) => {
         studentsEnrolled: true,
       }
     )
-      .populate("instructor")
+      .populate("instructor","-password")
       .exec();
+      //remove password from instructor
 
     return res.status(200).json({
       success: true,
