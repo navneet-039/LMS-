@@ -12,7 +12,7 @@ export default function InstructorSection() {
           <img
             src={Instructor}
             alt="instructor_image"
-            className="shadow-white"
+            className="shadow-white "
           />
         </div>
         {/* {right part} */}

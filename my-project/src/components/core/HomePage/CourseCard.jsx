@@ -2,8 +2,8 @@ import React from "react";
 import { HiUsers } from "react-icons/hi";
 import { ImTree } from "react-icons/im";
 
-const CourseCard = ({ cardData, currentCard, setCurrentCard }) => {
-  const isActive = currentCard === cardData?.heading;
+const CourseCard = ({ cardData, CurrentCard, setCurrentCard }) => {
+  const isActive = CurrentCard === cardData?.heading;
 
   return (
     <div

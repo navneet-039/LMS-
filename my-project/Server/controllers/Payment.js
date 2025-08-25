@@ -87,6 +87,30 @@ exports.verifyPayment = async (req, res) => {
         .status(200)
         .json({ success: "false", message: "Payment failed" });
     }
+    crypto.createHmac("sha256", secret)
+
+// crypto: This is Node.js's built-in module for cryptography. It provides methods to create hashes, HMACs, ciphers, etc.
+// createHmac(algorithm, key): This creates an HMAC object using:
+// algorithm: "sha256" in your case.
+// key: A secret key used for HMAC.
+// HMAC: Stands for Hash-based Message Authentication Code.
+// It’s a type of message authentication code that uses a cryptographic hash function (like SHA-256) plus a secret key.
+
+
+// .update(data) adds the data that you want to hash.
+
+// body.toString() converts the body (could be a buffer or object) into a string so it can be hashed.
+
+
+// .digest() finalizes the HMAC computation and returns the result.
+// "hex" specifies the output format:
+// Hexadecimal string (common for signatures and checksums)
+// Other options: 'base64', 'latin1', etc.
+
+// SHA-256 is part of the SHA-2 (Secure Hash Algorithm 2) family.
+// It is a cryptographic hash function, which:
+// Takes an input of any size.
+// Produces a fixed 256-bit (32-byte) output called the hash.
 
     let body = razorpay_order_id + "|" + razorpay_payment_id;
     const expectedsignature = crypto
@@ -142,7 +166,7 @@ const enrolledStudent = async (courses, userId, res) => {
         `successfully enrolled into ${enrolledCourse.courseName} `,
         courseEnrollmentEmail(
           enrolledCourse.courseName,
-          `${enrolledStudent.firstName}`
+          enrolledStudent.firstName
         )
       );
       console.log("Email sent successfully", emailResponse);

@@ -32,23 +32,22 @@ const TimelineSection = () => {
   return (
     <div>
       <div className="flex flex-col lg:flex-row gap-20 mb-20 items-center">
-        <div className="lg:w-[45%] flex flex-col gap-14 lg:gap-3">
-          {TimeLine.map((ele, i) => {
-            return (
-              <div className="flex flex-col lg:gap-3" key={i}>
-                <div className="flex gap-6" key={i}>
-                  <div className="w-[52px] h-[52px] bg-white rounded-full flex justify-center items-center shadow-[#00000012] shadow-[0_0_62px_0]">
-                    <img src={ele.Logo} alt="" />
-                  </div>
-                  <div>
-                    <h2 className="font-semibold text-[18px]">{ele.Heading}</h2>
-                    <p className="text-base">{ele.Description}</p>
-                  </div>
+        <div className="lg:w-[45%] flex flex-col gap-14 lg:gap-3 divide-y divide-gray-300">
+          {TimeLine.map((ele, i) => (
+            <div className="flex flex-col lg:gap-3 py-4" key={i}>
+              <div className="flex gap-6">
+                <div className="w-[52px] h-[52px] bg-white rounded-full flex justify-center items-center shadow-[#00000012] shadow-[0_0_62px_0]">
+                  <img src={ele.Logo} alt="" />
+                </div>
+                <div>
+                  <h2 className="font-semibold text-[18px]">{ele.Heading}</h2>
+                  <p className="text-base">{ele.Description}</p>
                 </div>
               </div>
-            );
-          })}
+            </div>
+          ))}
         </div>
+
         <div className="relative shadow-blue-200">
           <img
             src={TimeLineImage}

@@ -3,7 +3,7 @@ import { HomePageExplore } from "../../../data/homepage-explore";
 import HighlightText from "./HighlightedText";
 import CourseCard from "./CourseCard";
 
-const tabName = ["Free", "New to coding", "Most popular", "Career paths"];
+const tabName = ["Free", "New to coding", "Most popular", "Skills paths","Career paths"];
 
 export default function ExploreMore() {
   const [currentTab, setCurrentTab] = useState(tabName[0]);
@@ -32,15 +32,15 @@ export default function ExploreMore() {
       </p>
 
       {/* Tab Buttons */}
-      <div className="flex flex-row rounded-full bg-richblack-800 mb-5 border-richblack-100 mt-5 px-1 py-1">
+      <div className="flex flex-row rounded-full bg-richblack-800 mb-5 border-richblack-100 mt-5 px-1 py-1 ">
         {tabName.map((element, index) => (
           <div
             key={index}
-            className={`text-[16px] flex flex-row gap-2 ${
+            className={` text-[16px] flex flex-row items-center text-center  ${
               currentTab === element
-                ? "bg-richblue-900 text-richblack-5 font-medium"
+                ? "bg-richblue-900 text-richblack-5  font-medium"
                 : "text-richblack-200"
-            } rounded-full transition-all duration-200 cursor-pointer hover:bg-richblue-900 hover:text-richblack-5 px-7 py-2`}
+            } rounded-full transition-all duration-200 cursor-pointer hover:bg-richblue-900 hover:text-richblack-5 px-2 lg:px-20  py-1 lg:py-4`}
             onClick={() => setMyCards(element)}
           >
             {element}
@@ -49,8 +49,8 @@ export default function ExploreMore() {
       </div>
 
       {/* Course Cards */}
-      <div className="w-full  mt-6 flex  justify-center  mb-[200px] ">
-        <div className="absolute flex flex-row  gap-6 justify-between">
+      <div className="w-full  mt-6 flex   flex-row  justify-center  mb-[200px] ">
+        <div className=" flex  flex-col   lg:flex-row  gap-6 justify-between">
           {courses.map((element, index) => (
             <CourseCard
               key={index}

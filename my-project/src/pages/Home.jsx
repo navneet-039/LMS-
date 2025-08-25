@@ -67,7 +67,7 @@ function Home() {
           <CodeBlocks
             position={"lg:flex-row"}
             heading={
-              <div className="text-4xl font-semibold">
+              <div className="text-4xl font-semibold ">
                 Unlock your
                 <HighlightText text={"coding potential"} /> with our online
                 courses.

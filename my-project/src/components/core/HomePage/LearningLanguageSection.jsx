@@ -1,8 +1,8 @@
 import HighlightText from "./HighlightedText";
 import React from "react";
-import Know_Your_progress from "../../../assets/Images/Know_Your_progress.png"
-import compare_with_others from "../../../assets/Images/Compare_with_others.png"
-import plan_your_lessons from "../../../assets/Images/plan_your_lessons.png"
+import Know_Your_progress from "../../../assets/Images/Know_Your_progress.png";
+import compare_with_others from "../../../assets/Images/Compare_with_others.png";
+import plan_your_lessons from "../../../assets/Images/plan_your_lessons.png";
 import CTAButton from "./Button";
 export default function LearningLanguageSection() {
   return (
@@ -17,16 +17,27 @@ export default function LearningLanguageSection() {
           realistic voice-over, progress tracking, custom schedule and more.
         </div>
         <div className="flex flex-row  items-center mt-5">
-          <img src={Know_Your_progress} alt="know_your_progressImage" className="object-contain lg:-mr-32"/>
-          <img src={compare_with_others} alt="comape_with_othersImage" className="object-contain lg:-mb-10 lg:-mt-0 -mt-12"/>
-          <img src={plan_your_lessons} alt="plan_your_lessonsImage" className="object-contain lg:-ml-36 lg:-mt-5 -mt-16"/>
+          <img
+            src={Know_Your_progress}
+            alt="know_your_progressImage"
+            className="object-contain lg:-mr-32"
+          />
+          <img
+            src={compare_with_others}
+            alt="comape_with_othersImage"
+            className="object-contain lg:-mb-10 lg:-mt-0 -mt-12"
+          />
+          <img
+            src={plan_your_lessons}
+            alt="plan_your_lessonsImage"
+            className="object-contain lg:-ml-36 lg:-mt-5 -mt-16"
+          />
         </div>
         <div className="w-fit">
           <CTAButton active={true} linkto={"/signup"}>
-          <div>Learn more</div>
-        </CTAButton>
+            <div>Learn more</div>
+          </CTAButton>
         </div>
-        
       </div>
     </div>
   );
