@@ -8,6 +8,7 @@ import Quote from "../components/core/About/quote";
 import StatsComponent from "../components/core/About/StatsComponent"
 import LearningGrid from "../components/core/About/LearningGrid"
 import ContactFormSection from "../components/core/About/ContactFormSection"
+import Footer from "../components/common/Footer"
 function About() {
   return (
     <div  >
@@ -102,6 +103,7 @@ function About() {
         <LearningGrid/>
         <ContactFormSection/>
       </section>
+      <Footer/>
     </div>
   );
 }

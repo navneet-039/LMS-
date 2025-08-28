@@ -4,39 +4,31 @@ import CTAButton from "../HomePage/Button";
 import { apiConnector } from "../../../Services/apiConnector";
 import { contactusEndpoint } from "../../../Services/api";
 import CountryCode from "../../../data/countrycode.json";
-
+import { toast } from "react-hot-toast";
 export default function ContactUsForm() {
   const [loading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitSucccessfull },
+    formState: { errors, isSubmitSuccessful },
   } = useForm();
   const submitContactForm = async (data) => {
     console.log("logging data", data);
     try {
       setLoading(true);
-      // const result=await apiConnector("POST",contactusEndpoint.CONTACT_US_API,data);
-      const result = { status: "ok" };
+      const result=await apiConnector("POST",contactusEndpoint.CONTACT_US_API,data);
+      // const result = { status: "ok" };
       console.log("logging response", result);
+      toast.success("Email sent successfully");
+      reset();
       setLoading(false);
     } catch (error) {
       console.log(error.message);
       setLoading(false);
     }
   };
-  useEffect(() => {
-    if (isSubmitSucccessfull) {
-      reset({
-        email: "",
-        firstName: "",
-        lastName: "",
-        message: "",
-        phoneNo: "",
-      });
-    }
-  }, [isSubmitSucccessfull, reset]);
+ 
   return(
      <form
       className="flex flex-col gap-7"
@@ -105,10 +97,9 @@ export default function ContactUsForm() {
           <div className="flex w-[81px] flex-col gap-2">
             <select
               type="text"
-              name="firstname"
-              id="firstname"
-              placeholder="Enter first name"
-              className="form-style cursor-pointer text-white bg-richblack-800 rounded-md p-3 border-b-2 border-richblack-700"
+              name="countrycode"
+              id="countrycode"
+              className="form-style cursor-pointer text-white bg-richblack-800 rounded-md p-3 border-b-2 border-richblack-700 "
               {...register("countrycode", { required: true })}
             >
               {CountryCode.map((ele, i) => {
