@@ -35,7 +35,7 @@ export default function UpdatePassword() {
         <div className="my-10 flex flex-col gap-y-6 rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-8 px-12">
           <h2 className="text-lg font-semibold text-richblack-5">Password</h2>
           <div className="flex flex-col gap-5 lg:flex-row">
-            <div className="relative flex flex-col gap-2 lg:w-[48%]">
+            <div className="relative flex flex-col gap-2 lg:w-[48%]  text-richblack-300">
               <label htmlFor="oldPassword" className="lable-style">
                 Current Password
               </label>
@@ -64,7 +64,7 @@ export default function UpdatePassword() {
                 </span>
               )}
             </div>
-            <div className="relative flex flex-col gap-2 lg:w-[48%]">
+            <div className="relative flex flex-col gap-2 lg:w-[48%]  text-richblack-300">
               <label htmlFor="newPassword" className="lable-style">
                 New Password
               </label>
