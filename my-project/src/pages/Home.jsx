@@ -134,7 +134,7 @@ function Home() {
                 </div>
               </CTAButton>
               <CTAButton active={false} linkto={"/signup"}>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 text-richblack-50">
                   Learn More
                   <FaArrowRight></FaArrowRight>
                 </div>

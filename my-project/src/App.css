@@ -42,3 +42,12 @@ html,body{
   background: url("../src/assets/Images/bghome.svg");
  
 }
+.form-style {
+  @apply rounded-md bg-richblack-700 p-3 text-richblack-5 shadow-sm
+         outline-none transition-all duration-200
+         placeholder:text-richblack-400
+         border-b border-richblack-600;
+}
+.form-style:focus {
+  @apply border border-yellow-50;
+}

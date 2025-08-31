@@ -54,18 +54,11 @@ function Navbar() {
     setDropdownOpen(!dropdownOpen);
   };
 
-  // const handleMouseEnter = () => {
-  //   setDropdownOpen(true);
-  // };
-
-  // const handleMouseLeave = () => {
-  //   setDropdownOpen(false);
-  // };
-
   return (
     <div className="navbarContainer sticky top-0 left-0 z-1000">
       <div className="flex items-center justify-center bg-black border-b-[1px] border-b-richblack-800">
         <div className="flex flex-col md:flex-row w-full max-w-maxContent items-center justify-between px-4 py-2">
+          {/* Logo + Mobile Menu */}
           <div className="flex items-center justify-between w-full md:w-auto px-1 py-1">
             <Link to="/" onClick={closeMobileMenu}>
               <img
@@ -83,19 +76,16 @@ function Navbar() {
               {mobileMenuOpen ? "✖" : <AiOutlineMenu />}
             </button>
           </div>
+
+          {/* Nav Links */}
           <nav
-            className={`${
-              mobileMenuOpen ? "block" : "hidden"
-            } md:block mt-4 md:mt-0`}
+            className={`${mobileMenuOpen ? "block" : "hidden"} md:block mt-4 md:mt-0`}
           >
             <ul className="flex flex-col md:flex-row w-full max-w-maxContent items-center justify-between px-4 py-2 gap-y-4 md:gap-y-0 md:gap-x-14">
               {NavbarLinks.map(({ title, path }, index) => (
                 <li
                   key={index}
-                  // onMouseEnter={handleMouseEnter}
-                  // onMouseLeave={handleMouseLeave}
-                  className="mb-2 md:mb-0 transition duration-300 ease-in-out transform hover:text-yellow-25 hover:scale-105
-                  relative after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-yellow-50 after:bottom-0 after:left-0 after:transition-all after:duration-700 after:ease-in-out hover:after:w-full"
+                  className="mb-2 md:mb-0 transition duration-300 ease-in-out transform hover:text-yellow-25 hover:scale-105 relative"
                 >
                   {title === "Catalog" ? (
                     <div
@@ -108,30 +98,36 @@ function Navbar() {
                     >
                       <p>{title}</p>
                       <BsChevronDown />
+
                       {dropdownOpen && (
-                        <div className="absolute left-1/2 top-1/2 z-[9999] flex w-[200px] -translate-x-1/2 translate-y-[3em] flex-col rounded-lg bg-richblack-5 p-4 text-richblack-900 opacity-100 transition-all duration-150 group-hover:translate-y-[1.65em] lg:w-[300px]">
-                          {/* arrow */}
-                          <div className="absolute left-1/2 top-0 h-6 w-6 -translate-x-1/2 -translate-y-1/2 rotate-45 select-none rounded bg-richblack-5 z-[9998]"></div>
+                        <div
+                          className="absolute left-1/2 top-1/2 z-[9999] w-[200px] -translate-x-1/2 translate-y-[3em] 
+                                     flex flex-col rounded-lg bg-richblack-5 shadow-lg p-2 text-richblack-900 
+                                     transition-all duration-150 lg:w-[300px]"
+                        >
+                          {/* Arrow */}
+                          <div
+                            className="absolute left-1/2 top-0 h-4 w-4 -translate-x-1/2 -translate-y-1/2 
+                                       rotate-45 bg-richblack-5 shadow-md"
+                          ></div>
 
                           {loading ? (
                             <p className="text-center">Loading...</p>
                           ) : subLinks && subLinks.length ? (
                             <>
                               {subLinks
-                                .filter(
-                                  (subLink) => subLink?.courses?.length > 0
-                                )
+                                .filter((subLink) => subLink?.courses?.length > 0)
                                 .map((subLink, i) => (
                                   <Link
                                     to={`/catalog/${subLink.name
                                       .split(" ")
                                       .join("-")
                                       .toLowerCase()}`}
-                                    className="rounded-lg bg-transparent py-4 pl-4 hover:bg-richblack-500"
+                                    className="rounded-md px-4 py-2 text-sm hover:bg-richblack-200"
                                     key={i}
                                     onClick={toggleDropdown}
                                   >
-                                    <p>{subLink.name}</p>
+                                    {subLink.name}
                                   </Link>
                                 ))}
                             </>
@@ -158,28 +154,23 @@ function Navbar() {
               ))}
             </ul>
           </nav>
-          <div
-            className={`${
-              mobileMenuOpen ? "block" : "hidden"
-            } md:block mt-2 md:mt-0`}
-          >
+
+          {/* Right Side: Cart / Auth */}
+          <div className={`${mobileMenuOpen ? "block" : "hidden"} md:block mt-2 md:mt-0`}>
             <div className="flex flex-col items-center md:flex-row md:items-center justify-center md:justify-start gap-y-4 md:gap-y-0 gap-x-8">
               {user && user.accountType !== ACCOUNT_TYPE.INSTRUCTOR && (
-                <Link
-                  to="/dashboard/cart"
-                  className="relative"
-                  onClick={closeMobileMenu}
-                >
+                <Link to="/dashboard/cart" className="relative" onClick={closeMobileMenu}>
                   <AiOutlineShoppingCart className="text-2xl text-richblack-100" />
                   {totalItems > 0 && (
-                    <span className="absolute -bottom-2 -right-2 grid h-5 w-5 place-items-center overflow-hidden rounded-full bg-richblack-600 text-center text-xs font-bold text-yellow-500">
+                    <span className="absolute -bottom-2 -right-2 grid h-5 w-5 place-items-center rounded-full bg-richblack-600 text-xs font-bold text-yellow-500">
                       {totalItems}
                     </span>
                   )}
                 </Link>
               )}
+
               {!token && (
-                <div className="flex flex-col md:flex-row items-center md:items-start gap-y-4 md:gap-y-0 md:gap-x-4">
+                <div className="flex flex-col md:flex-row items-center gap-y-4 md:gap-y-0 md:gap-x-4">
                   <Link to="/login" onClick={closeMobileMenu}>
                     <button
                       className={`rounded-md px-4 w-[90px] py-2 transition duration-300 hover:scale-95 ${
@@ -204,6 +195,7 @@ function Navbar() {
                   </Link>
                 </div>
               )}
+
               {token && <ProfileDropdown />}
             </div>
           </div>
