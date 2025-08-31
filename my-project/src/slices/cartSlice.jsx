@@ -43,7 +43,7 @@ const cartSlice = createSlice({
     },
     removeFromCart: (state, action) => {
       const courseId = action.payload;
-      console.log("removeFromCart called with id:", courseId);
+      console.log("removeFromCart called with id:", courseId);        
 
       if (!courseId) {
         console.warn("removeFromCart called without courseId");

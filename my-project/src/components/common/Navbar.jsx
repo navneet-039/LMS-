@@ -10,7 +10,6 @@ import { categories } from "../../Services/api";
 import { ACCOUNT_TYPE } from "../../utils/constants";
 import ProfileDropdown from "../core/Auth/ProfileDropDown";
 
-
 function Navbar() {
   const { token } = useSelector((state) => state.auth);
   const { user } = useSelector((state) => state.profile);
@@ -84,7 +83,11 @@ function Navbar() {
               {mobileMenuOpen ? "✖" : <AiOutlineMenu />}
             </button>
           </div>
-          <nav className={`${mobileMenuOpen ? "block" : "hidden"} md:block mt-4 md:mt-0`}>
+          <nav
+            className={`${
+              mobileMenuOpen ? "block" : "hidden"
+            } md:block mt-4 md:mt-0`}
+          >
             <ul className="flex flex-col md:flex-row w-full max-w-maxContent items-center justify-between px-4 py-2 gap-y-4 md:gap-y-0 md:gap-x-14">
               {NavbarLinks.map(({ title, path }, index) => (
                 <li
@@ -106,21 +109,25 @@ function Navbar() {
                       <p>{title}</p>
                       <BsChevronDown />
                       {dropdownOpen && (
-                        <div className="visible absolute left-[50%] top-[50%] z-[1000] flex w-[200px] translate-x-[-50%] translate-y-[3em] flex-col rounded-lg bg-richblack-5 p-4 text-richblack-900 opacity-100 transition-all duration-150 group-hover:translate-y-[1.65em] lg:w-[300px]">
-                          <div className="absolute left-[50%] top-0 -z-10 h-6 w-6 translate-x-[80%] translate-y-[-40%] rotate-45 select-none rounded bg-richblack-5"></div>
+                        <div className="absolute left-1/2 top-1/2 z-[9999] flex w-[200px] -translate-x-1/2 translate-y-[3em] flex-col rounded-lg bg-richblack-5 p-4 text-richblack-900 opacity-100 transition-all duration-150 group-hover:translate-y-[1.65em] lg:w-[300px]">
+                          {/* arrow */}
+                          <div className="absolute left-1/2 top-0 h-6 w-6 -translate-x-1/2 -translate-y-1/2 rotate-45 select-none rounded bg-richblack-5 z-[9998]"></div>
+
                           {loading ? (
                             <p className="text-center">Loading...</p>
                           ) : subLinks && subLinks.length ? (
                             <>
                               {subLinks
-                                .filter((subLink) => subLink?.courses?.length > 0)
+                                .filter(
+                                  (subLink) => subLink?.courses?.length > 0
+                                )
                                 .map((subLink, i) => (
                                   <Link
                                     to={`/catalog/${subLink.name
                                       .split(" ")
                                       .join("-")
                                       .toLowerCase()}`}
-                                    className="rounded-lg bg-transparent py-4 pl-4 z-1000 hover:bg-richblack-500"
+                                    className="rounded-lg bg-transparent py-4 pl-4 hover:bg-richblack-500"
                                     key={i}
                                     onClick={toggleDropdown}
                                   >
@@ -151,7 +158,11 @@ function Navbar() {
               ))}
             </ul>
           </nav>
-          <div className={`${mobileMenuOpen ? "block" : "hidden"} md:block mt-2 md:mt-0`}>
+          <div
+            className={`${
+              mobileMenuOpen ? "block" : "hidden"
+            } md:block mt-2 md:mt-0`}
+          >
             <div className="flex flex-col items-center md:flex-row md:items-center justify-center md:justify-start gap-y-4 md:gap-y-0 gap-x-8">
               {user && user.accountType !== ACCOUNT_TYPE.INSTRUCTOR && (
                 <Link
@@ -198,7 +209,6 @@ function Navbar() {
           </div>
         </div>
       </div>
-  
     </div>
   );
 }
