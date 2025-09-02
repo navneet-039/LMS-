@@ -70,6 +70,14 @@ exports.verifyPayment = async (req, res) => {
     }
 
     const body = razorpay_order_id + "|" + razorpay_payment_id;
+//Why crypto is used for verifying Razorpay signature
+
+// Razorpay sends you back order_id, payment_id, and a signature.
+
+// That signature is generated on Razorpay’s server using your secret key and an HMAC (hash-based message authentication code).
+
+// On your backend, you must recompute the HMAC using the same algorithm (SHA256) and check if it matches.
+
 
     const expectedsignature = crypto
       .createHmac("sha256", process.env.RAZORPAY_SECRET)

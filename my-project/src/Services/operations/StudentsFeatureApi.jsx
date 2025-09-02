@@ -24,10 +24,18 @@ function loadScript(src) {
   });
 }
 
-export async function buyCourse({ token, courses, userDetails, navigate, dispatch }) {
+export async function buyCourse({
+  token,
+  courses,
+  userDetails,
+  navigate,
+  dispatch,
+}) {
   const toastId = toast.loading("Loading....");
   try {
-    const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
+    const res = await loadScript(
+      "https://checkout.razorpay.com/v1/checkout.js"
+    );
     if (!res) {
       toast.error("Razorpay SDK failed to load");
       return;
@@ -132,12 +140,51 @@ async function verifyPayment({ bodyData, token, navigate, dispatch }) {
 
     toast.success("Payment successful, you are enrolled!");
     navigate("/dashboard/enrolled-courses");
-    dispatch(resetCart());
+   
+      dispatch(resetCart());
+   
   } catch (error) {
-    console.error("PAYMENT VERIFY ERROR", error?.response?.data || error.message);
+    console.error(
+      "PAYMENT VERIFY ERROR",
+      error?.response?.data || error.message
+    );
     toast.error("Could not verify payment");
   } finally {
     toast.dismiss(toastId);
     dispatch(setPaymentLoading(false));
   }
 }
+
+// function loadScript(src) {
+//   return new Promise((resolve) => {
+//     const script = document.createElement("script");  // creates <script> tag in memory
+//     script.src = src;                                // sets the src → where to load JS from
+//     script.onload = () => resolve(true);             // success: resolve(true)
+//     script.onerror = () => resolve(false);           // error: resolve(false)
+//     document.body.appendChild(script);               // injects into DOM so browser actually downloads it
+//   });
+// }
+
+// What happens after the script is loaded
+
+// Once the script at https://checkout.razorpay.com/v1/checkout.js is fetched and executed, it defines a global constructor:
+
+// window.Razorpay
+
+// Now your code can call:
+
+// const paymentObject = new window.Razorpay(options);
+
+// This prepares the checkout flow in memory.
+
+// 3. What .open() actually does
+
+// When you call paymentObject.open(), the Razorpay SDK (from that loaded script) runs its internal code:
+
+// It creates an iframe overlay in your DOM.
+
+// It injects Razorpay’s secure checkout UI inside that iframe.
+
+// It shows the modal popup to the user.
+
+// You didn’t write this logic; it comes from the SDK you just loaded with document.createElement("script").

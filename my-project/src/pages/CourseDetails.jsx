@@ -11,6 +11,13 @@ import { fetchCourseDetails } from "../Services/operations/courseDetailsAPI";
 import { buyCourse } from "../Services/operations/StudentsFeatureApi";
 import GetAvgRating from "../utils/avgRatings";
 import Error from "./Error";
+import RatingStars from "../components/common/RatingStars"; 
+import {
+  FaUserGraduate,
+  FaCalendarAlt,
+  FaListUl,
+  FaVideo,
+} from "react-icons/fa"; 
 
 export default function CourseDetails() {
   const { courseId } = useParams();
@@ -22,12 +29,20 @@ export default function CourseDetails() {
   const [courseData, setCourseData] = useState(null);
   const [confirmationModal, setConfirmationModal] = useState(null);
   const [isActive, setIsActive] = useState([]);
+  const [totalNoOfLectures, setTotalNoOfLectures] = useState(0);
 
   useEffect(() => {
     (async () => {
       try {
         const data = await fetchCourseDetails(courseId);
         setCourseData(data);
+        if (data?.data?.courseContent) {
+          let lectures = 0;
+          data.data.courseContent.forEach((sec) => {
+            lectures += sec.subSection?.length || 0;
+          });
+          setTotalNoOfLectures(lectures);
+        }
       } catch (error) {
         console.error("Failed to fetch course details:", error);
       }
@@ -47,7 +62,6 @@ export default function CourseDetails() {
       return;
     }
 
-  
     buyCourse({
       token,
       courses: [courseId],
@@ -67,7 +81,9 @@ export default function CourseDetails() {
 
   if (!courseData) {
     return (
-      <div className="text-white text-center p-10">Loading course details...</div>
+      <div className="text-white text-center p-10">
+        Loading course details...
+      </div>
     );
   }
 
@@ -78,8 +94,6 @@ export default function CourseDetails() {
   const {
     courseName,
     courseDescription,
-    thumbnail,
-    price,
     whatYouWillLearn,
     courseContent,
     ratingAndReviews,
@@ -98,20 +112,42 @@ export default function CourseDetails() {
           <div className="md:col-span-2">
             <h1 className="text-4xl font-bold mb-4">{courseName}</h1>
             <p className="text-richblack-300 mb-6">{courseDescription}</p>
-            <p className="text-sm text-richblack-200 mb-2">
-              Created by{" "}
-              <span className="text-yellow-50">
-                {instructor?.firstName} {instructor?.lastName}
-              </span>
-            </p>
+
+            {/* Stars + Reviews + Students + Created By + Created At */}
+            <div className="flex flex-col gap-2 mb-6">
+              <div className="flex items-center gap-4">
+                <RatingStars Review_Count={avgRating} Star_Size={22} />
+                <span className="text-yellow-50 font-medium">
+                  {avgRating}/5 ({ratingAndReviews?.length || 0} reviews)
+                </span>
+                <span className="flex items-center gap-1 text-sm text-richblack-200">
+                  <FaUserGraduate /> {studentsEnrolled?.length || 0} Students
+                  Enrolled
+                </span>
+              </div>
+
+              <p className="text-sm text-richblack-200">
+                Created by{" "}
+                {instructor ? (
+                  <span>
+                    {instructor.firstName} {instructor.lastName}
+                  </span>
+                ) : (
+                  <span className="italic text-red-400">Deleted User</span>
+                )}
+              </p>
+
+              <p className="flex items-center gap-2 text-sm text-richblack-200">
+                <FaCalendarAlt /> Created At:{" "}
+                {new Date(createdAt).toDateString()}
+              </p>
+            </div>
+
             <p className="text-sm text-richblack-200 mb-4">
               Category:{" "}
               <span className="text-yellow-50">
                 {courseData.data?.category?.name}
               </span>
-            </p>
-            <p className="text-yellow-50 font-semibold mb-6">
-              Avg Rating: {avgRating}/5 ({ratingAndReviews?.length || 0} reviews)
             </p>
 
             {/* What you'll learn */}
@@ -125,6 +161,18 @@ export default function CourseDetails() {
             {/* Course Content Accordion */}
             <div>
               <h2 className="text-2xl font-semibold mb-4">Course Content</h2>
+
+              {/*  Sections + Lectures */}
+              <div className="mt-6 text-sm text-richblack-200 flex items-center gap-x-6">
+                <p className="flex items-center gap-2">
+                  <FaListUl /> {courseContent?.length || 0} Sections
+                </p>
+                <p className="flex items-center gap-2">
+                  <FaVideo /> {totalNoOfLectures} Lectures
+                </p>
+              </div>
+
+              {/*  Accordion Bars */}
               {courseContent?.map((section) => (
                 <CourseAccordionBar
                   key={section._id}
@@ -140,7 +188,7 @@ export default function CourseDetails() {
           <div>
             <CourseDetailsCard
               course={courseData}
-              handleBuyCourse={handleBuyCourse}  // pass handler down
+              handleBuyCourse={handleBuyCourse}
               setConfirmationModal={setConfirmationModal}
             />
           </div>
