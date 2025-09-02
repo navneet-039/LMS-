@@ -3,14 +3,42 @@ const User = require("../models/User");
 const Course = require("../models/Course");
 const { default: mongoose } = require("mongoose");
 
-// Create rating and review
+
 exports.createRating = async (req, res) => {
   try {
-    const userId = req.user.id;
     const { rating, review, courseId } = req.body;
 
+    // Validate courseId
+    if (!mongoose.Types.ObjectId.isValid(courseId)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid courseId format",
+      });
+    }
+
+    // Validate rating
+    if (!rating || rating < 1 || rating > 5) {
+      return res.status(400).json({
+        success: false,
+        message: "Rating must be between 1 and 5",
+      });
+    }
+
+    // Validate review
+    if (!review || review.trim().length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Review text is required",
+      });
+    }
+
+    const userId = new mongoose.Types.ObjectId(req.user.id);
+
+    console.log("Incoming rating request:", { userId, courseId, rating, review });
+
+    // Ensure student is enrolled
     const courseDetails = await Course.findOne({
-      _id: courseId,
+      _id: new mongoose.Types.ObjectId(courseId),
       studentsEnrolled: { $elemMatch: { $eq: userId } },
     });
 
@@ -21,36 +49,33 @@ exports.createRating = async (req, res) => {
       });
     }
 
+    // Ensure not already reviewed
     const alreadyReviewed = await RatingAndReview.findOne({
       user: userId,
-      course: courseId,
+      course: new mongoose.Types.ObjectId(courseId),
     });
 
     if (alreadyReviewed) {
       return res.status(403).json({
         success: false,
-        message: "Already reviewed this course..",
+        message: "You have already reviewed this course.",
       });
     }
 
+    // Create review
     const ratingReview = await RatingAndReview.create({
-      rating,
-      review,
-      course: courseId,
+      rating: Number(rating),
+      review: review.trim(),
+      course: new mongoose.Types.ObjectId(courseId),
       user: userId,
     });
 
-    const updatedCourseDetails = await Course.findByIdAndUpdate(
+    // Push into course
+    await Course.findByIdAndUpdate(
       courseId,
-      {
-        $push: {
-          ratingAndReview: ratingReview._id,
-        },
-      },
+      { $push: { ratingAndReview: ratingReview._id } },
       { new: true }
     );
-
-    console.log(updatedCourseDetails);
 
     return res.status(200).json({
       success: true,
@@ -58,13 +83,14 @@ exports.createRating = async (req, res) => {
       ratingReview,
     });
   } catch (error) {
-    console.log(error);
+    console.error("Error in createRating controller:", error);
     return res.status(500).json({
       success: false,
-      message: "Error while creating rating and review",
+      message: error.message || "Error while creating rating and review",
     });
   }
 };
+
 
 // Get average rating
 exports.getAverageRating = async (req, res) => {
@@ -113,11 +139,11 @@ exports.getAllRating = async (req, res) => {
     const allReviews = await RatingAndReview.find({})
       .sort({ rating: "desc" })
       .populate({
-        path: "user", 
+        path: "user",
         select: "firstName lastName image email",
       })
       .populate({
-        path: "course", 
+        path: "course",
         select: "courseName",
       })
       .exec();
@@ -135,4 +161,3 @@ exports.getAllRating = async (req, res) => {
     });
   }
 };
-

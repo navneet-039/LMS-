@@ -6,18 +6,19 @@ import ReactMarkdown from "react-markdown";
 import ConfirmationModal from "../components/common/ConfirmationModal";
 import Footer from "../components/common/Footer";
 import CourseAccordionBar from "../components/core/Course/CourseAccordionBar.jsx";
-import CourseDetailsCard from "../components/core/Course/CourseDetailsCard.jsx";
-import { fetchCourseDetails } from "../Services/operations/courseDetailsAPI";
+import CourseDetailsCard from "../components/core/Course/CourseDetailsCard";
+import { fetchCourseDetails } from "../Services/operations/courseDetailsAPI.jsx";
 import { buyCourse } from "../Services/operations/StudentsFeatureApi";
-import GetAvgRating from "../utils/avgRatings";
-import Error from "./Error";
-import RatingStars from "../components/common/RatingStars"; 
+import GetAvgRating from "../utils/avgRatings.js";
+import Error from "./Error.jsx";
+import RatingStars from "../components/common/RatingStars.jsx";
+
 import {
   FaUserGraduate,
   FaCalendarAlt,
   FaListUl,
   FaVideo,
-} from "react-icons/fa"; 
+} from "react-icons/fa";
 
 export default function CourseDetails() {
   const { courseId } = useParams();
@@ -162,7 +163,7 @@ export default function CourseDetails() {
             <div>
               <h2 className="text-2xl font-semibold mb-4">Course Content</h2>
 
-              {/*  Sections + Lectures */}
+              {/* Sections + Lectures */}
               <div className="mt-6 text-sm text-richblack-200 flex items-center gap-x-6">
                 <p className="flex items-center gap-2">
                   <FaListUl /> {courseContent?.length || 0} Sections
@@ -172,7 +173,7 @@ export default function CourseDetails() {
                 </p>
               </div>
 
-              {/*  Accordion Bars */}
+              {/* Accordion Bars */}
               {courseContent?.map((section) => (
                 <CourseAccordionBar
                   key={section._id}

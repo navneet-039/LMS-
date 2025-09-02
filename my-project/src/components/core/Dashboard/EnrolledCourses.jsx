@@ -13,6 +13,7 @@ export default function EnrolledCourses() {
   const [enrolledCourses, setEnrolledCourses] = useState(null)
   const getEnrolledCourses = async () => {
     try {
+      console.log("hellomds");
       const res = await getUserEnrolledCourses(token);
       console.log(res);
 

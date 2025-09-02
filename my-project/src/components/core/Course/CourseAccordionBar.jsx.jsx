@@ -60,3 +60,4 @@ export default function CourseAccordionBar({ course, isActive, handleActive }) {
     </div>
   );
 }
+

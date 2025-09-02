@@ -14,6 +14,9 @@ import Dashboard from "./pages/Dashboard";
 import Contact from "./pages/Contactus";
 import { useSelector } from "react-redux";
 import Settings from "./components/core/Dashboard/settings";
+import  ViewCourse from "./pages/viewCourse";
+import VideoDetails from "./components/core/ViewCourse/VideoDetails";
+
 
 import PrivateRoute from "./components/core/Auth/privateRoute";
 import Cart from "./components/core/Dashboard/cart";
@@ -36,7 +39,6 @@ function App() {
         <Route path="/" element={<Home></Home>} />
         <Route path="/catalog/:catalogName" element={<Catalog />} />
         <Route path="/courses/:courseId" element={<CourseDetails />} />
-
         <Route
           path="/signup"
           element={
@@ -93,7 +95,7 @@ function App() {
           {user?.accountType === ACCOUNT_TYPE.STUDENT && (
             <>
               <Route path="cart" element={<Cart />} />
-              <Route path="enrolled-courses" element={<EnrolledCourses/>} />
+              <Route path="enrolled-courses" element={<EnrolledCourses />} />
             </>
           )}
 
@@ -106,6 +108,21 @@ function App() {
           )}
         </Route>
 
+        <Route
+          path="/view-Course"
+          element={
+            <PrivateRoute>
+              <ViewCourse />
+            </PrivateRoute>
+          }
+        >
+          {user?.accountType === ACCOUNT_TYPE.STUDENT && (
+            <Route
+              path=":courseId/section/:sectionId/sub-section/:subsectionId"
+              element={<VideoDetails />}
+            />
+          )}
+        </Route>
         <Route path="*" element={<Error />} />
       </Routes>
     </div>
