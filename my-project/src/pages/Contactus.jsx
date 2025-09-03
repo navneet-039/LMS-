@@ -2,6 +2,7 @@ import React from "react"
 import Footer from "../components/common/Footer"
 import ContactUsForm from "../components/core/ContactPage/ContactUsForm"
 import ContactDetails from "../components/core/ContactPage/ContactDetails"
+import ReviewSlider from "../components/common/ReviewSlider"
 
 const Contact=()=>{
   return (
@@ -17,6 +18,10 @@ const Contact=()=>{
 
     </div>
     <div className="mt-[80px]">
+       <h2 className="text-center text-richblack-50 text-4xl font-semibold mt-10">
+          Review from Other Learners
+        </h2>
+      <ReviewSlider/>
       <Footer/>
     </div>
     

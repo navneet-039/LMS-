@@ -51,6 +51,9 @@ export const courseEndpoints = {
 export const catalogData = {
   CATALOGPAGEDATA_API: BASE_URL + "/course/getCategoryPageDetails",
 }
+export const ratingEndPoints = {
+  REVIEW_DETAILS_API: `${BASE_URL}/course/getReviews`,
+};
 
 // STUDENTS ENDPOINTS
 export const studentEndpoints = {
