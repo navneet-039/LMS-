@@ -12,7 +12,7 @@ export default function ConfirmationModal({ modalData }) {
         </p>
         <div className="flex flex-col gap-y-4 md:flex-row md:gap-x-4">
           <IconBtn
-            onclick={modalData?.btn1Handler}
+            onClick={modalData?.btn1Handler}
             text={modalData?.btn1Text}
           />
           <button

@@ -1,203 +1,236 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { markLectureAsComplete } from "../../../Services/operations/courseDetailsAPI"
+import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+
+import { markLectureAsComplete } from "../../../Services/operations/courseDetailsAPI";
 import { updateCompletedLectures } from "../../../slices/viewCourseSlice";
-import { Player } from "video-react";
-import "video-react/dist/video-react.css";
-import { AiFillPlayCircle } from "react-icons/ai";
 import IconBtn from "../../common/IconBtn";
 
-export const VideoDetails = () => {
+const VideoDetails = ({ isSidebarOpen = false }) => {
   const { courseId, sectionId, subSectionId } = useParams();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const playerRef = useRef();
-  const { token } = useSelector((state) => state.auth);
   const location = useLocation();
-
-  const {
-    courseSectionData,
-    completedLectures,
-  } = useSelector((state) => state.viewCourse);
+  const playerRef = useRef(null);
+  const dispatch = useDispatch();
+  const { token } = useSelector((state) => state.auth);
+  const { courseSectionData, courseEntireData, completedLectures } =
+    useSelector((state) => state.viewCourse);
 
   const [videoData, setVideoData] = useState(null);
+  const [previewSource, setPreviewSource] = useState("");
   const [videoEnded, setVideoEnded] = useState(false);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const setVideoSpecificDetails = async () => {
-      if (!courseSectionData.length) return;
+    if (!courseSectionData.length) return;
 
-      if (!courseId || !sectionId || !subSectionId) {
-        navigate("/dashboard/enrolled-courses");
-        return;
-      }
-
-      const filteredData = courseSectionData.find(
-        (course) => course._id === sectionId
+    if (!courseId && !sectionId && !subSectionId) {
+      navigate(`/dashboard/enrolled-courses`);
+    } else {
+      const filteredSection = courseSectionData.find(
+        (sec) => sec._id === sectionId
+      );
+      const filteredVideo = filteredSection?.subSection.find(
+        (sub) => sub._id === subSectionId
       );
 
-      const filterVideoData = filteredData?.subSection?.find(
-        (data) => data._id === subSectionId
-      );
+      if (filteredVideo) setVideoData(filteredVideo);
+      else setVideoData(null);
 
-      setVideoData(filterVideoData || null);
+      setPreviewSource(courseEntireData.thumbnail);
       setVideoEnded(false);
-    };
-
-    setVideoSpecificDetails();
-  }, [courseSectionData, courseId, sectionId, subSectionId, navigate, location.pathname]);
+    }
+  }, [courseSectionData, courseEntireData, location.pathname]);
 
   const isFirstVideo = () => {
-    const currentSectionIndex = courseSectionData.findIndex(
-      (data) => data._id === sectionId
+    const currentSectionIndx = courseSectionData.findIndex(
+      (sec) => sec._id === sectionId
     );
-    const subSectionIndex = courseSectionData[currentSectionIndex]?.subSection.findIndex(
-      (data) => data._id === subSectionId
-    );
-
-    return currentSectionIndex === 0 && subSectionIndex === 0;
+    const currentSubSectionIndx =
+      courseSectionData[currentSectionIndx].subSection.findIndex(
+        (sub) => sub._id === subSectionId
+      );
+    return currentSectionIndx === 0 && currentSubSectionIndx === 0;
   };
 
   const isLastVideo = () => {
-    const currentSectionIndex = courseSectionData.findIndex(
-      (data) => data._id === sectionId
+    const currentSectionIndx = courseSectionData.findIndex(
+      (sec) => sec._id === sectionId
     );
-    const noOfSubSections =
-      courseSectionData[currentSectionIndex]?.subSection.length;
-    const subSectionIndex = courseSectionData[currentSectionIndex]?.subSection.findIndex(
-      (data) => data._id === subSectionId
-    );
-
+    const currentSubSectionIndx =
+      courseSectionData[currentSectionIndx].subSection.findIndex(
+        (sub) => sub._id === subSectionId
+      );
     return (
-      currentSectionIndex === courseSectionData.length - 1 &&
-      subSectionIndex === noOfSubSections - 1
+      currentSectionIndx === courseSectionData.length - 1 &&
+      currentSubSectionIndx ===
+        courseSectionData[currentSectionIndx].subSection.length - 1
     );
   };
 
   const goToNextVideo = () => {
-    const currentSectionIndex = courseSectionData.findIndex(
-      (data) => data._id === sectionId
+    const currentSectionIndx = courseSectionData.findIndex(
+      (sec) => sec._id === sectionId
     );
-    const noOfSubSections =
-      courseSectionData[currentSectionIndex].subSection.length;
-    const subSectionIndex = courseSectionData[currentSectionIndex].subSection.findIndex(
-      (data) => data._id === subSectionId
-    );
+    const currentSubSectionIndx =
+      courseSectionData[currentSectionIndx].subSection.findIndex(
+        (sub) => sub._id === subSectionId
+      );
 
-    if (subSectionIndex < noOfSubSections - 1) {
+    if (
+      currentSubSectionIndx <
+      courseSectionData[currentSectionIndx].subSection.length - 1
+    ) {
       const nextSubSectionId =
-        courseSectionData[currentSectionIndex].subSection[subSectionIndex + 1]._id;
+        courseSectionData[currentSectionIndx].subSection[
+          currentSubSectionIndx + 1
+        ]._id;
       navigate(
         `/view-course/${courseId}/section/${sectionId}/sub-section/${nextSubSectionId}`
       );
-    } else if (currentSectionIndex < courseSectionData.length - 1) {
-      const nextSectionId = courseSectionData[currentSectionIndex + 1]._id;
-      const nextSubsectionId =
-        courseSectionData[currentSectionIndex + 1].subSection[0]._id;
+    } else if (currentSectionIndx < courseSectionData.length - 1) {
+      const nextSectionId = courseSectionData[currentSectionIndx + 1]._id;
+      const nextSubSectionId =
+        courseSectionData[currentSectionIndx + 1].subSection[0]._id;
       navigate(
-        `/view-course/${courseId}/section/${nextSectionId}/sub-section/${nextSubsectionId}`
+        `/view-course/${courseId}/section/${nextSectionId}/sub-section/${nextSubSectionId}`
       );
     }
   };
 
   const goToPrevVideo = () => {
-    const currentSectionIndex = courseSectionData.findIndex(
-      (data) => data._id === sectionId
+    const currentSectionIndx = courseSectionData.findIndex(
+      (sec) => sec._id === sectionId
     );
-    const subSectionIndex = courseSectionData[currentSectionIndex].subSection.findIndex(
-      (data) => data._id === subSectionId
-    );
+    const currentSubSectionIndx =
+      courseSectionData[currentSectionIndx].subSection.findIndex(
+        (sub) => sub._id === subSectionId
+      );
 
-    if (subSectionIndex > 0) {
+    if (currentSubSectionIndx > 0) {
       const prevSubSectionId =
-        courseSectionData[currentSectionIndex].subSection[subSectionIndex - 1]._id;
+        courseSectionData[currentSectionIndx].subSection[
+          currentSubSectionIndx - 1
+        ]._id;
       navigate(
         `/view-course/${courseId}/section/${sectionId}/sub-section/${prevSubSectionId}`
       );
-    } else if (currentSectionIndex > 0) {
-      const prevSectionId = courseSectionData[currentSectionIndex - 1]._id;
-      const prevSubSectionLength =
-        courseSectionData[currentSectionIndex - 1].subSection.length;
-      const prevSubsectionId =
-        courseSectionData[currentSectionIndex - 1].subSection[prevSubSectionLength - 1]._id;
+    } else if (currentSectionIndx > 0) {
+      const prevSectionId = courseSectionData[currentSectionIndx - 1]._id;
+      const prevSubSectionId =
+        courseSectionData[currentSectionIndx - 1].subSection.slice(-1)[0]._id;
       navigate(
-        `/view-course/${courseId}/section/${prevSectionId}/sub-section/${prevSubsectionId}`
+        `/view-course/${courseId}/section/${prevSectionId}/sub-section/${prevSubSectionId}`
       );
     }
   };
 
   const handleLectureCompletion = async () => {
     setLoading(true);
-    const res = await markLectureAsComplete(
-      { courseId: courseId, subSectionId: subSectionId },
-      token
-    );
-    if (res) {
-      dispatch(updateCompletedLectures(subSectionId));
+    try {
+      const res = await markLectureAsComplete(
+        { courseId, subsectionId: subSectionId },
+        token
+      );
+      if (res) dispatch(updateCompletedLectures(subSectionId));
+    } catch (err) {
+      console.error("Error marking lecture as complete:", err);
     }
     setLoading(false);
   };
 
   return (
-    <div>
+    <div className="flex flex-col gap-5 text-white px-2 md:px-6">
+      {/* Video / Thumbnail */}
       {!videoData ? (
-        <div>No data found</div>
+        <img
+          src={previewSource}
+          alt="Preview"
+          className="w-full h-auto max-h-[400px] rounded-md object-cover"
+        />
       ) : (
-        <Player
-          ref={playerRef}
-          aspectRatio="16:9"
-          playsInline
-          onEnded={() => setVideoEnded(true)}
-          src={videoData?.videoUrl}
-        >
-          <AiFillPlayCircle />
+        <div className="relative w-full aspect-video rounded-md overflow-hidden">
+          <video
+            ref={playerRef}
+            src={videoData.videoUrl}
+            controls
+            className="w-full h-full object-contain"
+            onEnded={() => setVideoEnded(true)}
+          />
+
           {videoEnded && (
-            <div>
-              {!completedLectures.includes(subSectionId) && (
+            <div
+              className={`absolute inset-0 z-50 flex flex-col items-center justify-center gap-4 p-4 text-center transition-all duration-300 ${
+                isSidebarOpen ? "opacity-30 pointer-events-none" : "opacity-100"
+              }`}
+              style={{
+                backgroundImage:
+                  "linear-gradient(to top, rgb(0, 0, 0), rgba(0,0,0,0.7), rgba(0,0,0,0.5), rgba(0,0,0,0.1))",
+              }}
+            >
+              {/* Center buttons */}
+              <div className="flex flex-col items-center gap-3">
+                {!completedLectures.includes(subSectionId) && (
+                  <IconBtn
+                    onClick={handleLectureCompletion}
+                    disabled={loading}
+                    text={!loading ? "Mark As Completed" : "Loading..."}
+                    customClasses="text-base md:text-lg max-w-max px-4"
+                  />
+                )}
+
                 <IconBtn
+                  onClick={() => {
+                    if (playerRef.current) {
+                      playerRef.current.currentTime = 0;
+                      playerRef.current
+                        .play()
+                        .catch(() => console.log("Autoplay blocked"));
+                      setVideoEnded(false);
+                    }
+                  }}
                   disabled={loading}
-                  onClick={handleLectureCompletion}
-                  text={!loading ? "Mark As Completed" : "Loading..."}
+                  text="Rewatch"
+                  customClasses="text-base md:text-lg max-w-max px-4"
                 />
-              )}
-              <IconBtn
-                disabled={loading}
-                onClick={() => {
-                  if (playerRef?.current) {
-                    playerRef.current.seek(0);
-                    setVideoEnded(false);
-                  }
-                }}
-                text="Rewatch"
-              />
-              <div>
+              </div>
+
+              {/* Navigation Buttons */}
+              <div className="absolute bottom-6 left-0 right-0 flex justify-between px-6">
                 {!isFirstVideo() && (
                   <button
                     disabled={loading}
                     onClick={goToPrevVideo}
-                    className="blackButton"
+                    className="flex items-center gap-2 rounded-md bg-richblack-700 px-4 py-2 text-sm md:text-base hover:bg-richblack-600"
                   >
-                    Prev
+                    <FaArrowLeft /> Prev
                   </button>
                 )}
                 {!isLastVideo() && (
                   <button
                     disabled={loading}
                     onClick={goToNextVideo}
-                    className="blackButton"
+                    className="flex items-center gap-2 rounded-md bg-richblack-700 px-4 py-2 text-sm md:text-base hover:bg-richblack-600 ml-auto"
                   >
-                    Next
+                    Next <FaArrowRight />
                   </button>
                 )}
               </div>
             </div>
           )}
-        </Player>
+        </div>
       )}
-      <p>{videoData?.title}</p>
-      <p>{videoData?.description}</p>
+
+      {/* Title + Description */}
+      <h1 className="mt-2 text-xl md:text-2xl font-semibold break-words">
+        {videoData?.title}
+      </h1>
+      <p className="pt-2 pb-6 text-sm md:text-base leading-relaxed break-words">
+        {videoData?.description}
+      </p>
     </div>
   );
 };
+
+export default VideoDetails;

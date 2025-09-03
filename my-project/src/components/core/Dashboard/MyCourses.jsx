@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { fetchInstructorCourses } from "../../../services/operations/courseDetailsAPI";
+import { fetchInstructorCourses } from "../../../Services/operations/courseDetailsAPI"
 import IconBtn from "../../common/IconBtn";
 import CourseseTable from "./InstructorCourses/CourseseTable";
 
@@ -23,7 +23,7 @@ const MyCourses = () => {
   <div className="text-white">
     <div className="flex justify-between">
       <h1>My Courses</h1>
-      <IconBtn text="Add Course" onclick={() => navigate("/dashboard/add-course")} />
+      <IconBtn text="Add Course" onClick={() => navigate("/dashboard/add-course")} />
     </div>
     {courses && <CourseseTable courses={courses} setCourses={setCourses} />}
   </div>

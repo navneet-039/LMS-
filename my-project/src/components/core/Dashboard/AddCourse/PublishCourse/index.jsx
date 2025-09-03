@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { resetCourseState, setStep } from "../../../../../slices/courseSlice";
 import IconBtn from "../../../../common/IconBtn";
 import { COURSE_STATUS } from "../../../../../utils/constants";
-import { editCourseDetails } from "../../../../../services/operations/courseDetailsAPI";
+import { editCourseDetails } from "../../../../../Services/operations/courseDetailsAPI"
 
 const PublishCourse = () => {
   const { register, handleSubmit, setValue, getValues } = useForm();

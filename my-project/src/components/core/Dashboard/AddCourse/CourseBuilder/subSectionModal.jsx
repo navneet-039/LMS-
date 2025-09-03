@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux"
 import {
   createSubSection,
   updateSubSection,
-} from "../../../../../services/operations/courseDetailsAPI"
+} from "../../../../../Services/operations/courseDetailsAPI"
 import { setCourse } from "../../../../../slices/courseSlice"
 import { RxCross1 } from "react-icons/rx"
 import Upload from "../Upload"

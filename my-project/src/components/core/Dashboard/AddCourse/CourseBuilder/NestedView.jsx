@@ -14,7 +14,7 @@ import ConfirmationModal from "../../../../common/ConfirmationModal";
 import {
   deleteSection,
   deleteSubSection,
-} from "../../../../../services/operations/courseDetailsAPI";
+} from "../../../../../Services/operations/courseDetailsAPI"
 import { setCourse } from "../../../../../slices/courseSlice";
 
 export default function NestedView({ handleChangeEditSectionName }) {

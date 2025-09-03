@@ -14,9 +14,8 @@ import Dashboard from "./pages/Dashboard";
 import Contact from "./pages/Contactus";
 import { useSelector } from "react-redux";
 import Settings from "./components/core/Dashboard/settings";
-import  ViewCourse from "./pages/viewCourse";
-import VideoDetails from "./components/core/ViewCourse/VideoDetails";
-
+import ViewCourse from "./pages/ViewCourse";   // ✅ fix: correct import (capitalized)
+import VideoDetails from "./components/core/ViewCourse/VideoDetails"; // ✅ fix: default export
 
 import PrivateRoute from "./components/core/Auth/privateRoute";
 import Cart from "./components/core/Dashboard/cart";
@@ -33,10 +32,10 @@ import CourseDetails from "./pages/CourseDetails";
 function App() {
   const { user } = useSelector((state) => state.profile);
   return (
-    <div className="w-screen min-h-screen bg-richblack-900  flex flex-col font-inter">
+    <div className="w-screen min-h-screen bg-richblack-900 flex flex-col font-inter">
       <Navbar />
       <Routes>
-        <Route path="/" element={<Home></Home>} />
+        <Route path="/" element={<Home />} />
         <Route path="/catalog/:catalogName" element={<Catalog />} />
         <Route path="/courses/:courseId" element={<CourseDetails />} />
         <Route
@@ -118,11 +117,12 @@ function App() {
         >
           {user?.accountType === ACCOUNT_TYPE.STUDENT && (
             <Route
-              path=":courseId/section/:sectionId/sub-section/:subsectionId"
-              element={<VideoDetails />}
+              path=":courseId/section/:sectionId/sub-section/:subSectionId" 
+              element={<VideoDetails />} 
             />
           )}
         </Route>
+
         <Route path="*" element={<Error />} />
       </Routes>
     </div>

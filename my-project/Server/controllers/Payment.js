@@ -127,16 +127,30 @@ const enrolledStudent = async (courses, userId, res) => {
         { new: true }
       );
 
+      // **Create initial course progress if not exists**
+      const existingProgress = await CourseProgress.findOne({ courseID: courseId, userId });
+      if (!existingProgress) {
+        await CourseProgress.create({
+          courseID: courseId,
+          userId,
+          completedVideos: [],
+        });
+      }
+
       await mailSender(
         enrolledStudent.email,
         `Successfully enrolled into ${enrolledCourse.courseName}`,
         courseEnrollmentEmail(enrolledCourse.courseName, enrolledStudent.firstName)
       );
+
     } catch (error) {
       return res.status(400).json({ success: false, message: error.message });
     }
   }
+
+  return res.status(200).json({ success: true, message: "Enrolled successfully" });
 };
+
 
 // send payment success email
 exports.sendPaymentSuccessEmail = async (req, res) => {

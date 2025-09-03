@@ -7,7 +7,7 @@ import ConfirmationModal from "../../../common/ConfirmationModal";
 import {
   deleteCourse,
   fetchInstructorCourses,
-} from "../../../../services/operations/courseDetailsAPI";
+} from "../../../../Services/operations/courseDetailsAPI"
 
 import {
   FaEdit,

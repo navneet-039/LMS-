@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getFullDetailsOfCourse } from "../../../../services/operations/courseDetailsAPI";
+import { getFullDetailsOfCourse } from "../../../../Services/operations/courseDetailsAPI"
 import { setCourse, setEditCourse } from "../../../../slices/courseSlice";
 import { useEffect } from "react";
 import RenderSteps from "../AddCourse/RenderSteps";

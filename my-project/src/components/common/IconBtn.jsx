@@ -1,6 +1,6 @@
 export default function IconBtn({
   text,
-  onClick,
+  onClick, // corrected from onclick
   children,
   disabled,
   outline = false,
@@ -10,7 +10,7 @@ export default function IconBtn({
   return (
     <button
       disabled={disabled}
-      onClick={onClick} 
+      onClick={onClick} // React will now recognize it
       className={`flex items-center ${
         outline ? "border border-yellow-50 bg-transparent" : "bg-yellow-50"
       } cursor-pointer gap-x-2 rounded-md py-2 px-5 font-semibold text-richblack-900 ${customClasses}`}
