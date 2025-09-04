@@ -22,12 +22,11 @@ database.connect();
 app.use(express.json());
 app.use(express.urlencoded({extended: true}))//for using postman
 app.use(cookieParser());
-app.use(
-	cors({
-		origin:"http://localhost:3000",
-		credentials:true,
-	})
-)
+cors({
+  origin:["http://localhost:3000", "https://lms-frontend-6wl9.onrender.com"],
+  credentials:true,
+})
+
 
 app.use(
 	fileUpload({
