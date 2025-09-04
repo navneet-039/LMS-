@@ -25,12 +25,13 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: [
-      "http://localhost:3000",
-      "https://lms-frontend-6wl9.onrender.com"
+      "https://lms-frontend-6wl9.onrender.com",
+      "http://localhost:3000", 
     ],
     credentials: true,
   })
 );
+
 
 
 
