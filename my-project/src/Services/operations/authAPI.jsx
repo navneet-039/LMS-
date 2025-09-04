@@ -1,7 +1,7 @@
 import { toast } from "react-hot-toast";
 import { setLoading, setToken } from "../../slices/authSlice";
 // import { resetCart } from "../../slices/cartSlice"
-import { setUser } from "../../slices/profileSlice";
+import { setUser } from "../../slices/profileslice";
 import { apiConnector } from "../apiConnector";
 import { endpoints } from "../api";
 
@@ -88,10 +88,10 @@ export function signUp(
 
 export function login(email, password, navigate) {
   return async (dispatch) => {
-     console.log(email,password);
+    console.log(email, password);
     const toastId = toast.loading("Loading...");
     dispatch(setLoading(true));
-   
+
     try {
       const response = await apiConnector("POST", LOGIN_API, {
         email,
@@ -112,7 +112,10 @@ export function login(email, password, navigate) {
       dispatch(setUser({ ...response.data.user, image: userImage }));
 
       localStorage.setItem("token", JSON.stringify(response.data.token));
-localStorage.setItem("user", JSON.stringify({ ...response.data.user, image: userImage }));
+      localStorage.setItem(
+        "user",
+        JSON.stringify({ ...response.data.user, image: userImage })
+      );
 
       navigate("/dashboard/my-profile");
     } catch (error) {
