@@ -42,10 +42,9 @@ const CourseseTable = ({ courses, setCourses }) => {
         {/* HEADER */}
         <Thead>
           <Tr className="bg-richblack-800 text-richblack-25 text-sm sm:text-base">
-            <Th className="p-3 sm:p-4 text-left w-[40%] sm:w-[50%]">Courses</Th>
-            <Th className="p-3 sm:p-4 text-center w-[20%] sm:w-[15%]">Duration</Th>
-            <Th className="p-3 sm:p-4 text-center w-[20%] sm:w-[15%]">Price</Th>
-            <Th className="p-3 sm:p-4 text-center w-[20%]">Actions</Th>
+            <Th className="p-3 sm:p-4 text-left w-[50%]">Courses</Th>
+            <Th className="p-3 sm:p-4 text-center w-[25%] sm:w-[15%]">Price</Th>
+            <Th className="p-3 sm:p-4 text-center w-[25%]">Actions</Th>
           </Tr>
         </Thead>
 
@@ -53,7 +52,7 @@ const CourseseTable = ({ courses, setCourses }) => {
         <Tbody>
           {courses.length === 0 ? (
             <Tr>
-              <Td className="p-6 text-center" colSpan={4}>
+              <Td className="p-6 text-center" colSpan={3}>
                 No courses Found
               </Td>
             </Tr>
@@ -95,11 +94,6 @@ const CourseseTable = ({ courses, setCourses }) => {
                       )}
                     </div>
                   </div>
-                </Td>
-
-                {/* Duration */}
-                <Td className="p-3 sm:p-4 text-center text-richblack-200">
-                  2hr 30 min
                 </Td>
 
                 {/* Price */}
