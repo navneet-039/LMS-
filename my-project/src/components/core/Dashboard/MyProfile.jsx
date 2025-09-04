@@ -14,37 +14,41 @@ export default function MyProfile() {
       <h1 className="mb-14 text-3xl font-medium text-richblack-5">
         My Profile
       </h1>
-      <div className="flex items-center justify-between rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-8 px-12">
-        <div className="flex items-center gap-x-4">
+
+      {/* Profile Header */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 rounded-md border border-richblack-700 bg-richblack-800 p-6 sm:p-8">
+        <div className="flex items-center gap-x-4 w-full sm:w-auto">
           <img
             src={user?.image}
             alt={`profile-${user?.firstName}`}
-            className="aspect-square w-[78px] rounded-full object-cover"
+            className="aspect-square w-[56px] rounded-full object-cover" // smaller profile image
           />
-          <div className="space-y-1">
-            <p className="text-lg font-semibold text-richblack-5">
+          <div className="space-y-1 flex-1 min-w-0">
+            <p className="text-lg font-semibold text-richblack-5 truncate">
               {user?.firstName + " " + user?.lastName}
             </p>
-            <p className="text-sm text-richblack-300">{user?.email}</p>
+            <p className="text-sm text-richblack-300 break-words">
+              {user?.email}
+            </p>
           </div>
         </div>
         <IconBtn
           text="Edit"
-          onClick={() => {
-            navigate("/dashboard/settings");
-          }}
+          onClick={() => navigate("/dashboard/settings")}
+          className="w-full sm:w-auto"
         >
           <RiEditBoxLine />
         </IconBtn>
       </div>
-      <div className="my-10 flex flex-col gap-y-10 rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-8 px-12">
-        <div className="flex w-full items-center justify-between">
+
+      {/* About Section */}
+      <div className="my-10 flex flex-col gap-y-6 rounded-md border border-richblack-700 bg-richblack-800 p-6 sm:p-8">
+        <div className="flex flex-col sm:flex-row w-full items-start sm:items-center justify-between gap-4">
           <p className="text-lg font-semibold text-richblack-5">About</p>
           <IconBtn
             text="Edit"
-            onClick={() => {
-              navigate("/dashboard/settings");
-            }}
+            onClick={() => navigate("/dashboard/settings")}
+            className="w-full sm:w-auto"
           >
             <RiEditBoxLine />
           </IconBtn>
@@ -59,22 +63,25 @@ export default function MyProfile() {
           {user?.additionalDetails?.about ?? "Write Something About Yourself"}
         </p>
       </div>
-      <div className="my-10 flex flex-col gap-y-10 rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-8 px-12">
-        <div className="flex w-full items-center justify-between">
+
+      {/* Personal Details */}
+      <div className="my-10 flex flex-col gap-y-6 rounded-md border border-richblack-700 bg-richblack-800 p-6 sm:p-8">
+        <div className="flex flex-col sm:flex-row w-full items-start sm:items-center justify-between gap-4">
           <p className="text-lg font-semibold text-richblack-5">
             Personal Details
           </p>
           <IconBtn
             text="Edit"
-            onClick={() => {
-              navigate("/dashboard/settings");
-            }}
+            onClick={() => navigate("/dashboard/settings")}
+            className="w-full sm:w-auto"
           >
             <RiEditBoxLine />
           </IconBtn>
         </div>
-        <div className="flex max-w-[500px] justify-between">
-          <div className="flex flex-col gap-y-5">
+
+        <div className="flex flex-col sm:flex-row gap-8 sm:justify-between max-w-[700px]">
+          {/* Left column */}
+          <div className="flex flex-col gap-y-5 flex-1">
             <div>
               <p className="mb-2 text-sm text-richblack-300">First Name</p>
               <p className="text-sm font-medium text-richblack-5">
@@ -83,7 +90,7 @@ export default function MyProfile() {
             </div>
             <div>
               <p className="mb-2 text-sm text-richblack-300">Email</p>
-              <p className="text-sm font-medium text-richblack-5">
+              <p className="text-sm font-medium text-richblack-5 break-words">
                 {user?.email}
               </p>
             </div>
@@ -94,7 +101,9 @@ export default function MyProfile() {
               </p>
             </div>
           </div>
-          <div className="flex flex-col gap-y-5">
+
+          {/* Right column */}
+          <div className="flex flex-col gap-y-5 flex-1">
             <div>
               <p className="mb-2 text-sm text-richblack-300">Last Name</p>
               <p className="text-sm font-medium text-richblack-5">
@@ -104,7 +113,8 @@ export default function MyProfile() {
             <div>
               <p className="mb-2 text-sm text-richblack-300">Phone Number</p>
               <p className="text-sm font-medium text-richblack-5">
-                {user?.additionalDetails?.contactNumber ?? "Add Contact Number"}
+                {user?.additionalDetails?.contactNumber ??
+                  "Add Contact Number"}
               </p>
             </div>
             <div>

@@ -7,7 +7,7 @@ import ConfirmationModal from "../../../common/ConfirmationModal";
 import {
   deleteCourse,
   fetchInstructorCourses,
-} from "../../../../Services/operations/courseDetailsAPI"
+} from "../../../../Services/operations/courseDetailsAPI";
 
 import {
   FaEdit,
@@ -37,15 +37,15 @@ const CourseseTable = ({ courses, setCourses }) => {
   };
 
   return (
-    <div className="text-white w-full mt-5">
-      <Table className="w-full border border-richblack-800 rounded-lg overflow-hidden table-fixed">
+    <div className="text-white w-full mt-5 overflow-x-auto">
+      <Table className="w-full border border-richblack-800 rounded-lg overflow-hidden">
         {/* HEADER */}
         <Thead>
-          <Tr className="bg-richblack-800 text-richblack-25">
-            <Th className="w-[50%] p-4 text-left">Courses</Th>
-            <Th className="w-[15%] p-4 text-center">Duration</Th>
-            <Th className="w-[15%] p-4 text-center">Price</Th>
-            <Th className="w-[20%] p-4 text-center">Actions</Th>
+          <Tr className="bg-richblack-800 text-richblack-25 text-sm sm:text-base">
+            <Th className="p-3 sm:p-4 text-left w-[40%] sm:w-[50%]">Courses</Th>
+            <Th className="p-3 sm:p-4 text-center w-[20%] sm:w-[15%]">Duration</Th>
+            <Th className="p-3 sm:p-4 text-center w-[20%] sm:w-[15%]">Price</Th>
+            <Th className="p-3 sm:p-4 text-center w-[20%]">Actions</Th>
           </Tr>
         </Thead>
 
@@ -59,20 +59,23 @@ const CourseseTable = ({ courses, setCourses }) => {
             </Tr>
           ) : (
             courses.map((course) => (
-              <Tr key={course._id} className="border-b border-richblack-700">
+              <Tr
+                key={course._id}
+                className="border-b border-richblack-700 text-sm sm:text-base"
+              >
                 {/* Course Column */}
-                <Td className="p-4">
-                  <div className="flex gap-4">
+                <Td className="p-3 sm:p-4">
+                  <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                     <img
                       src={course?.thumbnail}
-                      className="h-[100px] w-[160px] rounded-lg object-cover border border-richblack-700 flex-shrink-0"
+                      className="h-[120px] w-full sm:w-[160px] rounded-lg object-cover border border-richblack-700 flex-shrink-0"
                       alt="Course Thumbnail"
                     />
                     <div className="flex flex-col gap-1">
-                      <p className="font-semibold text-lg">
+                      <p className="font-semibold text-base sm:text-lg">
                         {course.courseName}
                       </p>
-                      <p className="text-sm text-richblack-200 line-clamp-2">
+                      <p className="text-xs sm:text-sm text-richblack-200 line-clamp-2">
                         {course.courseDescription}
                       </p>
                       <p className="mt-1 text-xs text-richblack-400 flex items-center gap-2">
@@ -82,11 +85,11 @@ const CourseseTable = ({ courses, setCourses }) => {
 
                       {/* Status */}
                       {course.status === COURSE_STATUS.DRAFT ? (
-                        <span className="mt-2 flex items-center gap-2 text-pink-400 font-medium">
+                        <span className="mt-2 flex items-center gap-2 text-pink-400 font-medium text-xs sm:text-sm">
                           <FaRegClock className="text-pink-400" /> Drafted
                         </span>
                       ) : (
-                        <span className="mt-2 flex items-center gap-2 text-yellow-400 font-medium">
+                        <span className="mt-2 flex items-center gap-2 text-yellow-400 font-medium text-xs sm:text-sm">
                           <FaCheckCircle className="text-yellow-400" /> Published
                         </span>
                       )}
@@ -95,21 +98,21 @@ const CourseseTable = ({ courses, setCourses }) => {
                 </Td>
 
                 {/* Duration */}
-                <Td className="p-4 text-center text-richblack-200">
+                <Td className="p-3 sm:p-4 text-center text-richblack-200">
                   2hr 30 min
                 </Td>
 
                 {/* Price */}
-                <Td className="p-4 text-center font-semibold text-richblack-25">
-                    ₹{course.price}
+                <Td className="p-3 sm:p-4 text-center font-semibold text-richblack-25">
+                  ₹{course.price}
                 </Td>
 
                 {/* Actions */}
-                <Td className="p-4 text-center">
-                  <div className="flex justify-center gap-3">
+                <Td className="p-3 sm:p-4 text-center">
+                  <div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-3">
                     {/* EDIT BUTTON */}
                     <button
-                      className="flex items-center gap-2 rounded-md bg-yellow-500 px-3 py-1 text-black hover:bg-yellow-400 transition"
+                      className="flex items-center justify-center gap-2 rounded-md bg-yellow-500 px-3 py-1 text-black hover:bg-yellow-400 transition text-sm sm:text-base"
                       disabled={loading}
                       onClick={() =>
                         navigate(`/dashboard/edit-course/${course._id}`)
@@ -120,7 +123,7 @@ const CourseseTable = ({ courses, setCourses }) => {
 
                     {/* DELETE BUTTON */}
                     <button
-                      className="flex items-center gap-2 rounded-md bg-red-600 px-3 py-1 text-white hover:bg-red-500 transition"
+                      className="flex items-center justify-center gap-2 rounded-md bg-red-600 px-3 py-1 text-white hover:bg-red-500 transition text-sm sm:text-base"
                       disabled={loading}
                       onClick={() =>
                         setConfirmationModal({

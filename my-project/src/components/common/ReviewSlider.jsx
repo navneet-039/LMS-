@@ -1,19 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/free-mode";
-import "swiper/css/pagination";
-import "swiper/css/autoplay"; // ✅ removed navigation css
-import { FreeMode, Pagination, Autoplay } from "swiper/modules"; // ✅ removed Navigation
-import StarRatings from "react-star-ratings";
-import { apiConnector } from "../../Services/apiConnector";
-import { ratingEndPoints } from "../../Services/api";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react"
+import { Swiper, SwiperSlide } from "swiper/react"
+import "swiper/css"
+import "swiper/css/free-mode"
+import "swiper/css/pagination"
+import "swiper/css/autoplay"
+import { FreeMode, Pagination, Autoplay } from "swiper/modules"
+import StarRatings from "react-star-ratings"
+import { apiConnector } from "../../Services/apiConnector"
+import { ratingEndPoints } from "../../Services/api"
 
 const ReviewSlider = () => {
-  const [reviews, setReviews] = useState([]);
-  const { user } = useSelector((state) => state.profile);
-  const truncateWords = 15;
+  const [reviews, setReviews] = useState([])
+  const truncateWords = 15
 
   useEffect(() => {
     const fetchAllReviews = async () => {
@@ -21,41 +19,37 @@ const ReviewSlider = () => {
         const response = await apiConnector(
           "GET",
           ratingEndPoints.REVIEW_DETAILS_API
-        );
+        )
         if (response?.data?.success) {
-          setReviews(response.data.data);
+          setReviews(response.data.data)
         }
       } catch (error) {
-        console.error("Error fetching reviews:", error);
+        console.error("Error fetching reviews:", error)
       }
-    };
+    }
 
-    fetchAllReviews();
-  }, []);
+    fetchAllReviews()
+  }, [])
 
   // Function to truncate review text
   const truncateText = (text, wordLimit) => {
-    if (!text) return "";
-    const words = text.split(" ");
-    if (words.length <= wordLimit) return text;
-    return words.slice(0, wordLimit).join(" ") + "...";
-  };
+    if (!text) return ""
+    const words = text.split(" ")
+    if (words.length <= wordLimit) return text
+    return words.slice(0, wordLimit).join(" ") + "..."
+  }
 
-  // Function to get user avatar with fallbacks
-  const getUserAvatar = (reviewUser) => {
-    if (reviewUser?.image) return reviewUser.image;
-    if (user?.image) return user.image;
-    return `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(
-      reviewUser?.firstName + " " + reviewUser?.lastName
-    )}`;
-  };
+  // Function to get user image or DiceBear initials
+  const getUserImage = (user) => {
+    return user?.image
+      ? user.image
+      : `https://api.dicebear.com/5.x/initials/svg?seed=${encodeURIComponent(
+          `${user?.firstName || ""} ${user?.lastName || ""}`
+        )}`
+  }
 
   return (
     <div className="w-full max-w-5xl mx-auto py-10">
-      {/* <h2 className="text-2xl font-bold text-center mb-6 text-white">
-        Student Reviews
-      </h2> */}
-
       <Swiper
         slidesPerView={1}
         spaceBetween={20}
@@ -80,8 +74,8 @@ const ReviewSlider = () => {
                 {/* User Info */}
                 <div className="flex items-center gap-3">
                   <img
-                    src={getUserAvatar(rev?.user)}
-                    alt={rev?.user?.firstName}
+                    src={getUserImage(rev?.user)}
+                    alt={`${rev?.user?.firstName} ${rev?.user?.lastName}`}
                     className="w-12 h-12 aspect-square rounded-full object-cover border border-richblack-700 flex-shrink-0"
                   />
                   <div className="min-w-0">
@@ -127,7 +121,7 @@ const ReviewSlider = () => {
         )}
       </Swiper>
     </div>
-  );
-};
+  )
+}
 
-export default ReviewSlider;
+export default ReviewSlider

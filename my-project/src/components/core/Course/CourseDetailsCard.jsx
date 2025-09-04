@@ -48,7 +48,6 @@ export default function CourseDetailsCard({ course, setConfirmationModal, handle
     } else {
       console.log("Dispatching addToCart");
       dispatch(addToCart(course));
-      toast.success("Course added to cart");
       return;
     }
   }
@@ -97,7 +96,7 @@ export default function CourseDetailsCard({ course, setConfirmationModal, handle
         </p>
 
         <div>
-          <p className="my-2 text-xl font-semibold">This Course Includes :</p>
+          <p className="my-2 text-xl font-semibold">Prerequisite for this course </p>
           <div className="flex flex-col gap-3 text-sm text-caribbeangreen-100">
             {instructions.length > 0 ? (
               instructions.map((item, i) => (

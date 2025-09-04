@@ -11,6 +11,7 @@ export default function VideoDetailsSidebar({ setReviewModal }) {
   const [activeStatus, setActiveStatus] = useState("")
   const [videoBarActive, setVideoBarActive] = useState("")
   const [isOpen, setIsOpen] = useState(false)
+
   const navigate = useNavigate()
   const location = useLocation()
   const { sectionId, subSectionId } = useParams()
@@ -53,10 +54,11 @@ export default function VideoDetailsSidebar({ setReviewModal }) {
 
       {/* Sidebar */}
       <div
-        className={`fixed top-[3.5rem] z-[100] h-[calc(100vh-3.5rem)] w-[280px] max-w-[380px] transform bg-richblack-800 border-r border-richblack-700 transition-transform duration-300 lg:static lg:translate-x-0 lg:flex lg:w-[380px] 
-        ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
+        className={`fixed top-[3.5rem] z-[100] h-[calc(100vh-3.5rem)] w-[280px] max-w-[380px] transform bg-richblack-800 border-r border-richblack-700 transition-transform duration-300 lg:static lg:translate-x-0 lg:flex lg:w-[380px]
+          ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
+        style={{ overflowX: "hidden" }}
       >
-        <div className="flex h-full flex-col">
+        <div className="flex flex-col h-full">
           {/* Header */}
           <div className="mx-5 flex flex-col gap-2 border-b border-richblack-600 py-5 text-richblack-25">
             <div className="flex w-full items-center justify-between">
@@ -74,7 +76,7 @@ export default function VideoDetailsSidebar({ setReviewModal }) {
               />
             </div>
             <div className="flex flex-col">
-              <p className="truncate text-sm sm:text-base md:text-lg font-semibold">
+              <p className="text-sm sm:text-base md:text-lg font-semibold break-words leading-snug">
                 {courseEntireData?.courseName}
               </p>
               <p className="text-xs sm:text-sm font-medium text-richblack-500">
@@ -84,7 +86,7 @@ export default function VideoDetailsSidebar({ setReviewModal }) {
           </div>
 
           {/* Sections */}
-          <div className="h-[calc(100vh-6rem)] overflow-y-auto">
+          <div className="overflow-y-auto px-2 py-2 flex-1">
             {courseSectionData.map((course, index) => (
               <div
                 className="mt-2 cursor-pointer text-xs sm:text-sm md:text-base text-richblack-5"
@@ -99,7 +101,7 @@ export default function VideoDetailsSidebar({ setReviewModal }) {
                     )
                   }
                 >
-                  <div className="w-[70%] font-semibold truncate">
+                  <div className="w-[70%] font-semibold text-xs sm:text-sm md:text-base break-words leading-snug">
                     {course?.sectionName}
                   </div>
                   <span
@@ -136,7 +138,7 @@ export default function VideoDetailsSidebar({ setReviewModal }) {
                           onChange={() => {}}
                           className="min-w-[14px] min-h-[14px]"
                         />
-                        <span className="truncate text-xs sm:text-sm md:text-base">
+                        <span className="text-xs sm:text-sm md:text-base break-words leading-snug">
                           {topic.title}
                         </span>
                       </div>
