@@ -14,7 +14,7 @@ import Dashboard from "./pages/Dashboard";
 import Contact from "./pages/Contactus";
 import { useSelector } from "react-redux";
 import Settings from "./components/core/Dashboard/settings";
-import ViewCourse from "./pages/ViewCourse";   
+import ViewCourse from "./pages/viewCourse";   
 import VideoDetails from "./components/core/ViewCourse/VideoDetails"; 
 import Instructor from "./components/core/Dashboard/InstructorDashboard/Instructor"
 
