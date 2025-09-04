@@ -1,4 +1,6 @@
-const BASE_URL = import.meta.env.VITE_BASE_URL;
+
+const BASE_URL = "https://lms-backend-studynotion.onrender.com/api/v1";
+
 
 export const endpoints = {
   SENDOTP_API: `${BASE_URL}/auth/sendotp`,
