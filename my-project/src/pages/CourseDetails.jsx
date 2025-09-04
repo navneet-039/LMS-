@@ -37,6 +37,7 @@ export default function CourseDetails() {
       try {
         const data = await fetchCourseDetails(courseId);
         setCourseData(data);
+        console.log(data);
         if (data?.data?.courseContent) {
           let lectures = 0;
           data.data.courseContent.forEach((sec) => {
@@ -97,13 +98,13 @@ export default function CourseDetails() {
     courseDescription,
     whatYouWillLearn,
     courseContent,
-    ratingAndReviews,
+    ratingAndReview,
     instructor,
     studentsEnrolled,
     createdAt,
   } = courseData.data;
 
-  const avgRating = GetAvgRating(ratingAndReviews || []);
+  const avgRating = GetAvgRating(ratingAndReview || []);
 
   return (
     <>
@@ -119,7 +120,7 @@ export default function CourseDetails() {
               <div className="flex items-center gap-4">
                 <RatingStars Review_Count={avgRating} Star_Size={22} />
                 <span className="text-yellow-50 font-medium">
-                  {avgRating}/5 ({ratingAndReviews?.length || 0} reviews)
+                  {avgRating}/5 ({ratingAndReview?.length || 0} reviews)
                 </span>
                 <span className="flex items-center gap-1 text-sm text-richblack-200">
                   <FaUserGraduate /> {studentsEnrolled?.length || 0} Students
